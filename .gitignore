@@ -1,0 +1,16 @@
+# Ignorar arquivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignorar arquivos de editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignorar logs
+*.log
+
+# Ignorar node_modules se usar npm futuramente
+node_modules/
