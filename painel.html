@@ -877,7 +877,7 @@
           <label class="form-label">E-mail</label>
           <input type="email" id="s-email" class="form-input" value="victor.bettencourt@automatizze.ia.br" oninput="saveSettings()">
         </div>
-        <button class="btn-save" onclick="saveSettings(); showToast('âœ“ ConfiguraÃ§Ãµes salvas', 'success')">Salvar ConfiguraÃ§Ãµes</button>
+        <button class="btn-save" onclick="saveSettings(); showToast('âœ“ ConfiguraÃ§Ães salvas', 'success')">Salvar ConfiguraÃ§Ãµes</button>
       </div>
     </div>
 
@@ -898,8 +898,8 @@
 
     <div class="modal-body">
       <div class="modal-tabs">
-        <div class="modal-tab active" onclick="switchTab(0)">âœ Preencher Manualmente</div>
-        <div class="modal-tab" onclick="switchTab(1)">ðŸ¤– Gerar com IA</div>
+        <div class="modal-tab active" onclick="switchTab(0)">Preencher Manualmente</div>
+        <div class="modal-tab" onclick="switchTab(1)">Gerar com IA</div>
       </div>
 
       <!-- TAB 1: Manual -->
@@ -940,48 +940,48 @@
           <div class="product-selector" id="product-selector">
             <label class="product-item" data-key="whatsapp">
               <input type="checkbox" value="whatsapp">
-              <div class="product-icon">ðŸ’¬</div>
+              <div class="product-icon">&#x1F4AC;</div>
               <div class="product-info">
                 <div class="product-name">IA no WhatsApp</div>
                 <div class="product-desc">Agente inteligente para atendimento 24/7</div>
               </div>
-              <div class="product-check">âœ“</div>
+              <div class="product-check">&#x2713;</div>
             </label>
             <label class="product-item" data-key="voice">
               <input type="checkbox" value="voice">
-              <div class="product-icon">ðŸ“ž</div>
+              <div class="product-icon">&#x1F4DE;</div>
               <div class="product-info">
                 <div class="product-name">IA de LigaÃ§Ã£o (Vapi)</div>
-                <div class="product-desc">LigaÃ§Ãµes automatizadas com voz ultra-realista</div>
+                <div class="product-desc">Liga&ccedil;&otilde;es automatizadas com voz ultra-realista</div>
               </div>
-              <div class="product-check">âœ“</div>
+              <div class="product-check">&#x2713;</div>
             </label>
             <label class="product-item" data-key="site">
               <input type="checkbox" value="site">
-              <div class="product-icon">ðŸ›’</div>
+              <div class="product-icon">&#x1F6D2;</div>
               <div class="product-info">
                 <div class="product-name">CriaÃ§Ã£o de Site</div>
                 <div class="product-desc">Site ou e-commerce com design premium</div>
               </div>
-              <div class="product-check">âœ“</div>
+              <div class="product-check">&#x2713;</div>
             </label>
             <label class="product-item" data-key="crm">
               <input type="checkbox" value="crm">
-              <div class="product-icon">ðŸ“Š</div>
+              <div class="product-icon">&#x1F4CA;</div>
               <div class="product-info">
                 <div class="product-name">InstalaÃ§Ã£o de CRM</div>
                 <div class="product-desc">Chatwoot configurado + treinamento do time</div>
               </div>
-              <div class="product-check">âœ“</div>
+              <div class="product-check">&#x2713;</div>
             </label>
             <label class="product-item" data-key="email">
               <input type="checkbox" value="email">
-              <div class="product-icon">âœ‰ï¸</div>
+              <div class="product-icon">&#x2709;</div>
               <div class="product-info">
                 <div class="product-name">Disparo de E-mails</div>
-                <div class="product-desc">Campanhas e automaÃ§Ãµes de e-mail marketing</div>
+                <div class="product-desc">Campanhas e automa&ccedil;&otilde;es de e-mail marketing</div>
               </div>
-              <div class="product-check">âœ“</div>
+              <div class="product-check">&#x2713;</div>
             </label>
           </div>
         </div>
@@ -1169,11 +1169,11 @@ function resetForm() {
 
 /* â”€â”€ PRODUCT SELECTOR STYLES (injected) â”€â”€ */
 const PRODUCT_NAMES = {
-  whatsapp: { icon: 'ðŸ’¬', label: 'IA no WhatsApp',      default_prazo: '7 dias Ãºteis' },
-  voice:    { icon: 'ðŸ“ž', label: 'IA de LigaÃ§Ã£o (Vapi)', default_prazo: '7 dias Ãºteis' },
-  site:     { icon: 'ðŸ›’', label: 'CriaÃ§Ã£o de Site',       default_prazo: '21 dias Ãºteis' },
-  crm:      { icon: 'ðŸ“Š', label: 'InstalaÃ§Ã£o de CRM',     default_prazo: '5 dias Ãºteis' },
-  email:    { icon: 'âœ‰ï¸', label: 'Disparo de E-mails',  default_prazo: '10 dias Ãºteis' },
+  whatsapp: { icon: '&#x1F4AC;', label: 'IA no WhatsApp',        default_prazo: '7 dias uteis' },
+  voice:    { icon: '&#x1F4DE;', label: 'IA de Ligacao (Vapi)',   default_prazo: '7 dias uteis' },
+  site:     { icon: '&#x1F6D2;', label: 'Criacao de Site',        default_prazo: '21 dias uteis' },
+  crm:      { icon: '&#x1F4CA;', label: 'Instalacao de CRM',      default_prazo: '5 dias uteis' },
+  email:    { icon: '&#x2709;',  label: 'Disparo de E-mails',     default_prazo: '10 dias uteis' },
 };
 
 (function(){
@@ -1342,7 +1342,7 @@ function askDelete(id) {
     renderList();
     updateStats();
     closeConfirm();
-    showToast('Proposta excluÃ­da', 'error');
+    showToast('Proposta excluÃda', 'error');
   };
 }
 function closeConfirm() {
@@ -1375,13 +1375,13 @@ function renderList() {
   container.innerHTML = filtered.map(p => {
     const [cls, label] = statusMap[p.status] || statusMap.draft;
     const date = new Date(p.createdAt).toLocaleDateString('pt-BR');
-    const val  = p.value ? `R$ ${p.value}` : 'â€”';
-    const url  = p.slug ? `automatizze.ia.br/${p.slug}` : 'â€”';
+    const val  = p.value ? `R$ ${p.value}` : '--';
+    const url  = p.slug ? `automatizze.ia.br/${p.slug}` : '--';
     return `
       <div class="proposal-row" onclick="openModal('${p.id}')">
         <div class="client-info">
           <div class="client-name">${escHtml(p.client)}</div>
-          <div class="client-date" style="color:var(--accent);font-family:var(--mono);font-size:10px;opacity:0.7">${url}</div>
+          <a href="https://automatizze.ia.br/${p.slug}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);font-family:var(--mono);font-size:10px;opacity:0.7;text-decoration:none;display:block;">${url}</a>
         </div>
         <div class="proposal-value">${val}</div>
         <div class="client-date" style="font-size:12px;color:var(--text-3)">${date}</div>
@@ -1422,7 +1422,7 @@ function updateStats() {
 /* â”€â”€ AI GENERATION â”€â”€ */
 async function generateWithAI() {
   const transcription = document.getElementById('ai-transcription').value.trim();
-  if (!transcription) { showToast('Cole a transcriÃ§Ã£o primeiro', 'error'); return; }
+  if (!transcription) { showToast('Cole a transcriÃ§Ão primeiro', 'error'); return; }
 
   const apiKey = document.getElementById('modal-api-key').value.trim() || settings.apiKey;
   if (!apiKey) {
@@ -1495,7 +1495,7 @@ Responda em formato JSON:
     document.getElementById('ai-result').classList.add('show');
 
     switchTab(0);
-    showToast('âœ“ Proposta gerada! Revise e salve.', 'success');
+    showToast('âœ Proposta gerada! Revise e salve.', 'success');
 
     settings.apiKey = apiKey;
     localStorage.setItem('azz_settings', JSON.stringify(settings));
@@ -1513,11 +1513,11 @@ Responda em formato JSON:
 
 /* â”€â”€ GENERATE & DOWNLOAD PROPOSAL HTML â”€â”€ */
 const PRODUCT_DATA = {
-  whatsapp: { title: 'Agente de IA<br>no WhatsApp', num_label: 'WhatsApp IA', img: 'assets/demo_whatsapp.png', url: 'automatizze.ia &mdash; agente whatsapp', badge: 'Ao Vivo', tag: 'WhatsApp IA', desc: 'Um agente inteligente treinado com o DNA do seu negÃ³cio &mdash; atende, qualifica leads e agenda reuniÃµes 24h por dia, 7 dias por semana.', features: ['Respostas instantÃ¢neas em linguagem natural','QualificaÃ§Ã£o automÃ¡tica de leads','IntegraÃ§Ã£o com seu CRM e agenda','RelatÃ³rios de conversas e mÃ©tricas'] },
-  voice: { title: 'Agente IA<br>de LigaÃ§Ã£o (Vapi)', num_label: 'IA de LigaÃ§Ã£o', img: 'assets/demo_voice.png', url: 'vapi.ai &mdash; voice agent', badge: 'Em LigaÃ§Ã£o', tag: 'Vapi IA', desc: 'LigaÃ§Ãµes automatizadas com voz de IA ultra-realista. O cliente nem percebe que Ã© IA &mdash; faz follow-ups e recupera oportunidades perdidas.', features: ['Voz de IA personalizada para sua marca','Fluxo de conversa configurado','IntegraÃ§Ã£o com lista de leads e CRM','TranscriÃ§Ã£o e anÃ¡lise de chamadas'] },
-  site: { title: 'Desenvolvimento<br>do Site', num_label: 'Site Premium', img: 'assets/demo_ecommerce.png', url: 'loja.suaempresa.com.br', badge: 'Loja Online', tag: 'Site / E-commerce', desc: 'Site ou e-commerce com design premium, otimizado para conversÃ£o e para motores de busca. Uma vitrine digital que vende por vocÃª enquanto dorme.', features: ['Design exclusivo e responsivo (mobile first)','CatÃ¡logo de produtos e gestÃ£o de estoque','Gateway de pagamento integrado (Pix, cartÃ£o)','Painel admin para vocÃª gerenciar sozinho'] },
-  crm: { title: 'InstalaÃ§Ã£o de CRM<br>(Chatwoot)', num_label: 'CRM Chatwoot', img: 'assets/demo_chatwoot.png', url: 'app.chatwoot.com &mdash; inbox', badge: 'Demo', tag: 'CRM / Chatwoot', desc: 'Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um sÃ³ lugar, com treinamento hands-on incluso.', features: ['InstalaÃ§Ã£o e configuraÃ§Ã£o no seu servidor','IntegraÃ§Ã£o com WhatsApp Business API','Caixas de entrada por setor','Treinamento completo para o time'] },
-  email: { title: 'Disparos de<br>E-mail Marketing', num_label: 'E-mail Marketing', img: 'assets/demo_email.png', url: 'campaigns.automatizze.ia &mdash; email mkt', badge: 'Enviando', tag: 'E-mail Marketing', desc: 'Campanhas de e-mail automÃ¡ticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisÃ£o.', features: ['ConfiguraÃ§Ã£o de automaÃ§Ãµes de e-mail','SegmentaÃ§Ã£o avanÃ§ada de lista','Templates de alta conversÃ£o','RelatÃ³rios de abertura e cliques'] }
+  whatsapp: { title: "Agente de IA<br>no WhatsApp", num_label: "WhatsApp IA", img: "assets/demo_whatsapp.png", url: "automatizze.ia &mdash; agente whatsapp", badge: "Ao Vivo", tag: "WhatsApp IA", desc: "Um agente inteligente treinado com o DNA do seu negocio &mdash; atende, qualifica leads e agenda reunioes 24h por dia, 7 dias por semana.", features: ["Respostas instantaneas em linguagem natural","Qualificacao automatica de leads","Integracao com seu CRM e agenda","Relatorios de conversas e metricas"] },
+  voice:    { title: "Agente IA<br>de Ligacao (Vapi)", num_label: "IA de Ligacao", img: "assets/demo_voice.png", url: "vapi.ai &mdash; voice agent", badge: "Em Ligacao", tag: "Vapi IA", desc: "Ligacoes automatizadas com voz de IA ultra-realista. O cliente nem percebe que e IA &mdash; faz follow-ups e recupera oportunidades perdidas.", features: ["Voz de IA personalizada para sua marca","Fluxo de conversa configurado","Integracao com lista de leads e CRM","Transcricao e analise de chamadas"] },
+  site:     { title: "Desenvolvimento<br>do Site", num_label: "Site Premium", img: "assets/demo_ecommerce.png", url: "loja.suaempresa.com.br", badge: "Loja Online", tag: "Site / E-commerce", desc: "Site ou e-commerce com design premium, otimizado para conversao e para motores de busca. Uma vitrine digital que vende por voce enquanto dorme.", features: ["Design exclusivo e responsivo (mobile first)","Catalogo de produtos e gestao de estoque","Gateway de pagamento integrado (Pix, cartao)","Painel admin para voce gerenciar sozinho"] },
+  crm:      { title: "Instalacao de CRM<br>(Chatwoot)", num_label: "CRM Chatwoot", img: "assets/demo_chatwoot.png", url: "app.chatwoot.com &mdash; inbox", badge: "Demo", tag: "CRM / Chatwoot", desc: "Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um so lugar, com treinamento hands-on incluso.", features: ["Instalacao e configuracao no seu servidor","Integracao com WhatsApp Business API","Caixas de entrada por setor","Treinamento completo para o time"] },
+  email:    { title: "Disparos de<br>E-mail Marketing", num_label: "E-mail Marketing", img: "assets/demo_email.png", url: "campaigns.automatizze.ia &mdash; email mkt", badge: "Enviando", tag: "E-mail Marketing", desc: "Campanhas de e-mail automaticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisao.", features: ["Configuracao de automacoes de e-mail","Segmentacao avancada de lista","Templates de alta conversao","Relatorios de abertura e cliques"] }
 };
 
 function buildProposalHTML(p) {
@@ -1562,7 +1562,7 @@ function triggerDownload(html, filename) {
   a.click();
   URL.revokeObjectURL(a.href);
   a.remove();
-  showToast('â†“ ' + filename + ' baixado!', 'success');
+  showToast('â† ' + filename + ' baixado!', 'success');
 }
 
 /* â”€â”€ HELPERS â”€â”€ */
@@ -1577,7 +1577,7 @@ function showToast(msg, type = 'success') {
   const icon = document.getElementById('toast-icon');
   t.className = `toast ${type}`;
   document.getElementById('toast-msg').textContent = msg;
-  icon.textContent = type === 'success' ? 'âœ“' : 'âœ•';
+  icon.textContent = type === 'success' ? '\u2713' : '\u2715';
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3500);
 }
