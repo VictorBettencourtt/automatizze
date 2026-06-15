@@ -570,8 +570,22 @@ body:hover .cursor { opacity: 1; }
 .slides-visual {
   position: relative;
   overflow: hidden;
-  background: var(--color-bg-card);
+  background: #000;
   border-right: 1px solid var(--color-border);
+}
+
+/* Green ambient glow behind mockup */
+.slides-visual::before {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(ellipse, rgba(0,255,178,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .slide-visual {
@@ -582,19 +596,23 @@ body:hover .cursor { opacity: 1; }
   justify-content: center;
   opacity: 0;
   transition: opacity 0.6s ease;
+  z-index: 1;
 }
 
 .slide-visual.active {
   opacity: 1;
 }
 
-/* Properly fit mockup inside the home slides panel with breathing room */
+/* Fit mockup inside home slides panel */
 .slides-visual .slide-visual {
-  padding: 5vh 2.5rem;
+  padding: 4vh 2rem;
   box-sizing: border-box;
 }
 .slides-visual .screen-mockup {
-  box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+  box-shadow:
+    0 0 40px rgba(0,255,178,0.08),
+    0 24px 60px rgba(0,0,0,0.8),
+    0 0 0 1px rgba(255,255,255,0.07);
 }
 
 /* Laptop mockup frame */
@@ -1559,6 +1577,23 @@ body:hover .cursor { opacity: 1; }
   object-fit: cover;
   object-position: top;
   display: block;
+}
+/* Green shimmer scan line — same as proposta.html */
+.screen-body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    rgba(0,255,178,0.04) 50%,
+    transparent 100%);
+  background-size: 100% 40px;
+  animation: scanLine 3s linear infinite;
+  pointer-events: none;
+}
+@keyframes scanLine {
+  0%   { background-position: 0 -40px; }
+  100% { background-position: 0 120%; }
 }
 .screen-live-badge {
   position: absolute;
