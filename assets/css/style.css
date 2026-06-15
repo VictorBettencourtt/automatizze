@@ -588,6 +588,16 @@ body:hover .cursor { opacity: 1; }
   opacity: 1;
 }
 
+/* Cap mockup size inside the home slides panel */
+.slides-visual .screen-mockup {
+  max-height: 70vh;
+  overflow: hidden;
+}
+.slides-visual .screen-body {
+  max-height: 55vh;
+  aspect-ratio: unset;
+}
+
 /* Laptop mockup frame */
 .laptop-frame {
   width: 80%;
