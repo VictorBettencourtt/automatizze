@@ -906,7 +906,15 @@
       <div class="tab-panel active" id="tab-manual">
         <div class="form-group">
           <label class="form-label">Nome do Cliente / Empresa *</label>
-          <input type="text" id="f-client" class="form-input" placeholder="Ex: Empresa XYZ Ltda">
+          <input type="text" id="f-client" class="form-input" placeholder="Ex: Suplementos XYZ">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slug da URL *</label>
+          <div style="display:flex;align-items:center;gap:0;">
+            <span style="padding:12px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-right:none;font-size:11px;color:var(--text-3);font-family:var(--mono);white-space:nowrap;flex-shrink:0;">automatizze.ia.br/</span>
+            <input type="text" id="f-slug" class="form-input" placeholder="suplementos" style="border-radius:0;" oninput="sanitizeSlug(this)">
+          </div>
+          <div class="form-hint">URL da proposta: automatizze.ia.br/<span id="slug-preview" style="color:var(--accent)">slug</span> — apenas letras, números e hífens.</div>
         </div>
         <div class="form-grid">
           <div class="form-group">
@@ -928,9 +936,54 @@
           </select>
         </div>
         <div class="form-group">
-          <label class="form-label">Entregas / Serviços</label>
-          <textarea id="f-deliveries" class="form-textarea" placeholder="Liste os serviços desta proposta, um por linha:&#10;- Agente IA WhatsApp&#10;- Chatwoot + Treinamento&#10;- Agente IA de Ligação (Vapi)"></textarea>
-          <div class="form-hint">Um serviço por linha. Aparecem no arquivo proposta.html gerado.</div>
+          <label class="form-label">Serviços / Entregas *</label>
+          <div class="product-selector" id="product-selector">
+            <label class="product-item" data-key="whatsapp">
+              <input type="checkbox" value="whatsapp">
+              <div class="product-icon">💬</div>
+              <div class="product-info">
+                <div class="product-name">IA no WhatsApp</div>
+                <div class="product-desc">Agente inteligente para atendimento 24/7</div>
+              </div>
+              <div class="product-check">✓</div>
+            </label>
+            <label class="product-item" data-key="voice">
+              <input type="checkbox" value="voice">
+              <div class="product-icon">📞</div>
+              <div class="product-info">
+                <div class="product-name">IA de Ligação (Vapi)</div>
+                <div class="product-desc">Ligações automatizadas com voz ultra-realista</div>
+              </div>
+              <div class="product-check">✓</div>
+            </label>
+            <label class="product-item" data-key="site">
+              <input type="checkbox" value="site">
+              <div class="product-icon">🛒</div>
+              <div class="product-info">
+                <div class="product-name">Criação de Site</div>
+                <div class="product-desc">Site ou e-commerce com design premium</div>
+              </div>
+              <div class="product-check">✓</div>
+            </label>
+            <label class="product-item" data-key="crm">
+              <input type="checkbox" value="crm">
+              <div class="product-icon">📊</div>
+              <div class="product-info">
+                <div class="product-name">Instalação de CRM</div>
+                <div class="product-desc">Chatwoot configurado + treinamento do time</div>
+              </div>
+              <div class="product-check">✓</div>
+            </label>
+            <label class="product-item" data-key="email">
+              <input type="checkbox" value="email">
+              <div class="product-icon">✉️</div>
+              <div class="product-info">
+                <div class="product-name">Disparo de E-mails</div>
+                <div class="product-desc">Campanhas e automações de e-mail marketing</div>
+              </div>
+              <div class="product-check">✓</div>
+            </label>
+          </div>
         </div>
         <div class="form-group">
           <label class="form-label">Observações Internas</label>
@@ -982,7 +1035,8 @@ Exemplo:
 
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-save" onclick="saveProposal()">Salvar Proposta</button>
+      <button class="btn-save" onclick="saveProposal()">Salvar</button>
+      <button class="btn-save" id="btn-download" onclick="downloadProposal()" style="background:rgba(0,255,178,0.15);border:1px solid rgba(0,255,178,0.3);color:var(--accent);" title="Gerar HTML para deploy">&#8595; Download HTML</button>
     </div>
   </div>
 </div>
@@ -1064,11 +1118,13 @@ function openModal(id) {
     const p = proposals.find(x => x.id === id);
     if (p) {
       document.getElementById('f-client').value      = p.client || '';
+      document.getElementById('f-slug').value        = p.slug || '';
+      document.getElementById('slug-preview').textContent = p.slug || 'slug';
       document.getElementById('f-value').value       = p.value || '';
       document.getElementById('f-installment').value = p.installment || '';
       document.getElementById('f-status').value      = p.status || 'open';
-      document.getElementById('f-deliveries').value  = (p.deliveries || []).join('\n');
       document.getElementById('f-notes').value       = p.notes || '';
+      setSelectedProducts(p.products || []);
       switchTab(0);
     }
   } else {
@@ -1080,42 +1136,103 @@ function closeModal() {
   resetForm();
 }
 function resetForm() {
-  ['f-client','f-value','f-installment','f-notes'].forEach(id => {
+  ['f-client','f-slug','f-value','f-installment','f-notes'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
+  const preview = document.getElementById('slug-preview');
+  if (preview) preview.textContent = 'slug';
   document.getElementById('f-status').value = 'open';
-  document.getElementById('f-deliveries').value = '';
+  setSelectedProducts([]);
   document.getElementById('ai-transcription').value = '';
   document.getElementById('ai-result').classList.remove('show');
   document.getElementById('ai-result-content').textContent = '';
   editingId = null;
 }
 
-/* ── TABS ── */
-function switchTab(idx) {
-  activeTab = idx;
-  document.querySelectorAll('.modal-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
-  document.querySelectorAll('.tab-panel').forEach((p, i)  => p.classList.toggle('active', i === idx));
+/* ── PRODUCT SELECTOR STYLES (injected) ── */
+(function(){
+  const style = document.createElement('style');
+  style.textContent = `
+    .product-selector { display:flex; flex-direction:column; gap:6px; }
+    .product-item {
+      display:grid; grid-template-columns:auto 36px 1fr auto;
+      align-items:center; gap:12px;
+      padding:12px 14px;
+      background:var(--bg-input);
+      border:1px solid var(--border);
+      cursor:pointer;
+      transition:border-color 0.2s ease, background 0.2s ease;
+      user-select:none;
+    }
+    .product-item:hover { border-color:var(--border-hover); }
+    .product-item.selected { border-color:var(--accent); background:var(--accent-dim); }
+    .product-item input[type=checkbox] { display:none; }
+    .product-icon { font-size:18px; line-height:1; }
+    .product-name { font-size:13px; font-weight:600; }
+    .product-desc { font-size:11px; color:var(--text-3); margin-top:2px; }
+    .product-check {
+      font-size:12px; font-weight:700;
+      color:var(--accent);
+      opacity:0;
+      transition:opacity 0.2s ease;
+    }
+    .product-item.selected .product-check { opacity:1; }
+    #slug-preview { font-family:var(--mono); font-size:11px; }
+  `;
+  document.head.appendChild(style);
+  /* Wire up clicks */
+  document.querySelectorAll('.product-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const cb = item.querySelector('input[type=checkbox]');
+      cb.checked = !cb.checked;
+      item.classList.toggle('selected', cb.checked);
+    });
+  });
+  /* Slug preview */
+  document.getElementById('f-slug')?.addEventListener('input', function() {
+    document.getElementById('slug-preview').textContent = this.value || 'slug';
+  });
+})();
+
+/* ── SLUG SANITIZE ── */
+function sanitizeSlug(el) {
+  el.value = el.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  const preview = document.getElementById('slug-preview');
+  if (preview) preview.textContent = el.value || 'slug';
 }
 
 /* ── SAVE PROPOSAL ── */
+function getSelectedProducts() {
+  return Array.from(document.querySelectorAll('.product-item input[type=checkbox]:checked')).map(cb => cb.value);
+}
+function setSelectedProducts(keys) {
+  document.querySelectorAll('.product-item').forEach(item => {
+    const cb = item.querySelector('input[type=checkbox]');
+    const key = cb.value;
+    cb.checked = keys.includes(key);
+    item.classList.toggle('selected', cb.checked);
+  });
+}
+
 function saveProposal() {
   const client = document.getElementById('f-client').value.trim();
   if (!client) { showToast('Informe o nome do cliente', 'error'); return; }
+  const slug = document.getElementById('f-slug').value.trim();
+  if (!slug) { showToast('Informe o slug da URL', 'error'); return; }
 
   const rawVal = document.getElementById('f-value').value.replace(/\D/g,'');
-  const deliveries = document.getElementById('f-deliveries').value
-    .split('\n').map(s => s.trim()).filter(Boolean);
+  const products = getSelectedProducts();
 
   const data = {
     id:          editingId || Date.now().toString(),
     client,
+    slug,
     value:       document.getElementById('f-value').value.trim(),
     valueNum:    parseInt(rawVal) || 0,
     installment: document.getElementById('f-installment').value.trim(),
     status:      document.getElementById('f-status').value,
-    deliveries,
+    products,
     notes:       document.getElementById('f-notes').value.trim(),
     createdAt:   editingId ? (proposals.find(x=>x.id===editingId)?.createdAt || new Date().toISOString()) : new Date().toISOString(),
     updatedAt:   new Date().toISOString(),
@@ -1131,7 +1248,7 @@ function saveProposal() {
   renderList();
   updateStats();
   closeModal();
-  showToast(editingId ? '✓ Proposta atualizada' : '✓ Proposta criada', 'success');
+  showToast(editingId ? '✓ Proposta atualizada' : '✓ Proposta criada! Agora faça download do HTML.', 'success');
 }
 
 /* ── DELETE ── */
@@ -1178,21 +1295,22 @@ function renderList() {
     const [cls, label] = statusMap[p.status] || statusMap.draft;
     const date = new Date(p.createdAt).toLocaleDateString('pt-BR');
     const val  = p.value ? `R$ ${p.value}` : '—';
+    const url  = p.slug ? `automatizze.ia.br/${p.slug}` : '—';
     return `
       <div class="proposal-row" onclick="openModal('${p.id}')">
         <div class="client-info">
           <div class="client-name">${escHtml(p.client)}</div>
-          <div class="client-date">${date}</div>
+          <div class="client-date" style="color:var(--accent);font-family:var(--mono);font-size:10px;opacity:0.7">${url}</div>
         </div>
         <div class="proposal-value">${val}</div>
         <div class="client-date" style="font-size:12px;color:var(--text-3)">${date}</div>
         <div><span class="status-badge ${cls}">${label}</span></div>
         <div class="row-actions" onclick="event.stopPropagation()">
-          <a class="row-btn" href="proposta.html" target="_blank" title="Ver Proposta">
+          <button class="row-btn" onclick="downloadProposalById('${p.id}')" title="Download HTML">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
             </svg>
-          </a>
+          </button>
           <button class="row-btn" onclick="askDelete('${p.id}')" title="Excluir">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
               <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/>
@@ -1242,9 +1360,10 @@ async function generateWithAI() {
 
 Analise a seguinte transcrição e extraia:
 1. Nome do cliente/empresa
-2. Serviços/entregas discutidos (lista)
-3. Valor aproximado mencionado (se houver)
-4. Observações importantes
+2. Slug URL (nome simplificado, apenas letras minúsculas e hifens)
+3. Serviços/entregas discutidos (Mapeie para: whatsapp, voice, site, crm, email)
+4. Valor aproximado mencionado (apenas números)
+5. Observações importantes
 
 Transcrição:
 ---
@@ -1253,11 +1372,11 @@ ${transcription}
 
 Responda em formato JSON:
 {
-  "cliente": "nome do cliente",
-  "servicos": ["serviço 1", "serviço 2"],
-  "valor": "valor numérico sem R$ ou texto explicativo",
-  "observacoes": "resumo das observações importantes",
-  "resumo": "1-2 frases resumindo a reunião"
+  "cliente": "nome",
+  "slug": "slug-url",
+  "produtos": ["whatsapp","voice"],
+  "valor": "15000",
+  "observacoes": "resumo das observações"
 }`;
 
   try {
@@ -1282,21 +1401,21 @@ Responda em formato JSON:
     const raw  = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
     const parsed = JSON.parse(raw);
 
-    /* Populate manual form */
-    if (parsed.cliente)      document.getElementById('f-client').value     = parsed.cliente;
-    if (parsed.valor)        document.getElementById('f-value').value      = parsed.valor;
-    if (parsed.servicos)     document.getElementById('f-deliveries').value = (parsed.servicos||[]).join('\n');
-    if (parsed.observacoes)  document.getElementById('f-notes').value      = parsed.observacoes;
+    if (parsed.cliente)      document.getElementById('f-client').value = parsed.cliente;
+    if (parsed.slug) {
+        document.getElementById('f-slug').value = parsed.slug;
+        document.getElementById('slug-preview').textContent = parsed.slug;
+    }
+    if (parsed.valor)        document.getElementById('f-value').value = parsed.valor;
+    if (parsed.produtos)     setSelectedProducts(parsed.produtos);
+    if (parsed.observacoes)  document.getElementById('f-notes').value = parsed.observacoes;
 
-    /* Show result */
     document.getElementById('ai-result-content').textContent = JSON.stringify(parsed, null, 2);
     document.getElementById('ai-result').classList.add('show');
 
-    /* Switch to manual to review */
     switchTab(0);
     showToast('✓ Proposta gerada! Revise e salve.', 'success');
 
-    /* Save key */
     settings.apiKey = apiKey;
     localStorage.setItem('azz_settings', JSON.stringify(settings));
 
@@ -1311,12 +1430,61 @@ Responda em formato JSON:
   }
 }
 
+/* ── GENERATE & DOWNLOAD PROPOSAL HTML ── */
+const PRODUCT_DATA = {
+  whatsapp: { title: 'Agente de IA<br>no WhatsApp', num_label: 'WhatsApp IA', img: 'assets/demo_whatsapp.png', url: 'automatizze.ia &mdash; agente whatsapp', badge: 'Ao Vivo', tag: 'WhatsApp IA', desc: 'Um agente inteligente treinado com o DNA do seu negócio &mdash; atende, qualifica leads e agenda reuniões 24h por dia, 7 dias por semana.', features: ['Respostas instantâneas em linguagem natural','Qualificação automática de leads','Integração com seu CRM e agenda','Relatórios de conversas e métricas'] },
+  voice: { title: 'Agente IA<br>de Ligação (Vapi)', num_label: 'IA de Ligação', img: 'assets/demo_voice.png', url: 'vapi.ai &mdash; voice agent', badge: 'Em Ligação', tag: 'Vapi IA', desc: 'Ligações automatizadas com voz de IA ultra-realista. O cliente nem percebe que é IA &mdash; faz follow-ups e recupera oportunidades perdidas.', features: ['Voz de IA personalizada para sua marca','Fluxo de conversa configurado','Integração com lista de leads e CRM','Transcrição e análise de chamadas'] },
+  site: { title: 'Desenvolvimento<br>do Site', num_label: 'Site Premium', img: 'assets/demo_ecommerce.png', url: 'loja.suaempresa.com.br', badge: 'Loja Online', tag: 'Site / E-commerce', desc: 'Site ou e-commerce com design premium, otimizado para conversão e para motores de busca. Uma vitrine digital que vende por você enquanto dorme.', features: ['Design exclusivo e responsivo (mobile first)','Catálogo de produtos e gestão de estoque','Gateway de pagamento integrado (Pix, cartão)','Painel admin para você gerenciar sozinho'] },
+  crm: { title: 'Instalação de CRM<br>(Chatwoot)', num_label: 'CRM Chatwoot', img: 'assets/demo_chatwoot.png', url: 'app.chatwoot.com &mdash; inbox', badge: 'Demo', tag: 'CRM / Chatwoot', desc: 'Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um só lugar, com treinamento hands-on incluso.', features: ['Instalação e configuração no seu servidor','Integração com WhatsApp Business API','Caixas de entrada por setor','Treinamento completo para o time'] },
+  email: { title: 'Disparos de<br>E-mail Marketing', num_label: 'E-mail Marketing', img: 'assets/demo_email.png', url: 'campaigns.automatizze.ia &mdash; email mkt', badge: 'Enviando', tag: 'E-mail Marketing', desc: 'Campanhas de e-mail automáticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisão.', features: ['Configuração de automações de e-mail','Segmentação avançada de lista','Templates de alta conversão','Relatórios de abertura e cliques'] }
+};
+
+function buildProposalHTML(p) {
+  const prods = (p.products || []).filter(k => PRODUCT_DATA[k]);
+  return `<!doctype html>
+<html lang="pt-BR"><head><meta charset="UTF-8"><title>Proposta Comercial &mdash; ${escHtml(p.client)}</title></head>
+<body style="margin:0;font-family:sans-serif;background:#000;color:#fff;text-align:center;padding:2rem;">
+<div>
+  <h1 style="font-size:48px;font-weight:700;">Proposta para ${escHtml(p.client)}</h1>
+  <p style="color:rgba(255,255,255,0.5);">URL: automatizze.ia.br/${p.slug}</p>
+  <div style="background:#0D0D11;border:1px solid rgba(255,255,255,0.1);padding:2rem;border-radius:12px;max-width:500px;margin:2rem auto;text-align:left;">
+    ${prods.map(k=>`<div style="padding:8px 0;font-size:14px;">✓ ${PRODUCT_DATA[k].num_label}</div>`).join('')}
+    ${p.value ? `<div style="margin-top:1.5rem;font-size:32px;font-weight:700;">R$ ${escHtml(p.value)}</div>` : ''}
+  </div>
+</div>
+</body></html>`;
+}
+
+function downloadProposal() {
+  const client = document.getElementById('f-client').value.trim();
+  const slug   = document.getElementById('f-slug').value.trim();
+  if (!client || !slug) { showToast('Preencha cliente e slug primeiro', 'error'); return; }
+  const p = { client, slug, value: document.getElementById('f-value').value.trim(), products: getSelectedProducts() };
+  triggerDownload(buildProposalHTML(p), slug + '.html');
+}
+function downloadProposalById(id) {
+  const p = proposals.find(x => x.id === id);
+  if (!p) return;
+  triggerDownload(buildProposalHTML(p), (p.slug || 'proposta') + '.html');
+}
+function triggerDownload(html, filename) {
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  URL.revokeObjectURL(a.href);
+  a.remove();
+  showToast('↓ ' + filename + ' baixado!', 'success');
+}
+
 /* ── HELPERS ── */
 function maskValue(el) {
   el.value = el.value.replace(/[^0-9,.]/g, '');
 }
 function escHtml(str) {
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 function showToast(msg, type = 'success') {
   const t = document.getElementById('toast');
@@ -1325,7 +1493,7 @@ function showToast(msg, type = 'success') {
   document.getElementById('toast-msg').textContent = msg;
   icon.textContent = type === 'success' ? '✓' : '✕';
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
 /* ── KEYBOARD ── */
@@ -1342,6 +1510,5 @@ function toggleSidebar() {
 
 init();
 </script>
-
 </body>
 </html>

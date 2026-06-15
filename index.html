@@ -196,124 +196,83 @@
         <!-- Visual side -->
         <div class="slides-visual" role="presentation">
 
-          <!-- Slide 1 — Chat Sim -->
+          <!-- Slide 1 — WhatsApp Agent mockup -->
           <div class="slide-visual active" id="vis-0" aria-hidden="false">
-            <div class="chat-sim" role="region" aria-label="Simulação de chat com agente IA">
-              <div class="chat-header">
-                <div class="chat-avatar" aria-hidden="true">AI</div>
-                <div>
-                  <div class="chat-agent-name">Agente Automatizze</div>
-                  <div class="chat-status">
-                    <span class="status-dot" aria-hidden="true"></span>
-                    Ativo
-                  </div>
+            <div style="width:85%;max-width:500px;">
+              <div class="screen-mockup">
+                <div class="screen-mockup-top">
+                  <div class="screen-dot screen-dot-red"></div>
+                  <div class="screen-dot screen-dot-yellow"></div>
+                  <div class="screen-dot screen-dot-green"></div>
+                  <div class="screen-url-bar"><span class="screen-url-text">automatizze.ia &mdash; agente whatsapp</span></div>
                 </div>
-              </div>
-              <div class="chat-body" id="chat-sim-body" role="log" aria-live="polite" aria-label="Conversa com agente">
-                <!-- Messages injected by JS -->
+                <div class="screen-body">
+                  <img src="assets/demo_whatsapp.png" alt="Demo Agente WhatsApp IA" loading="lazy">
+                  <div class="screen-live-badge"><span class="screen-live-dot"></span>Ao Vivo</div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- Slide 2 — RAG Visual -->
+          <!-- Slide 2 — RAG / Chatwoot mockup -->
           <div class="slide-visual" id="vis-1" aria-hidden="true">
-            <div style="width:80%;max-width:440px;">
-              <div style="background:#0D0D11;border:1px solid rgba(255,255,255,0.1);padding:20px;">
-                <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#00FFB2;font-family:'JetBrains Mono',monospace;margin-bottom:16px;">Base de Conhecimento RAG</div>
-                <div style="display:flex;flex-direction:column;gap:8px;">
-                  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
-                    <div>
-                      <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;">manual-produto-v3.pdf</div>
-                      <div style="font-size:9px;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;">847 chunks · indexado</div>
-                    </div>
-                    <div style="font-size:9px;color:#00FFB2;font-family:'JetBrains Mono',monospace;">✓ Ativo</div>
-                  </div>
-                  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
-                    <div>
-                      <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;">politicas-frete-2026.docx</div>
-                      <div style="font-size:9px;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;">214 chunks · indexado</div>
-                    </div>
-                    <div style="font-size:9px;color:#00FFB2;font-family:'JetBrains Mono',monospace;">✓ Ativo</div>
-                  </div>
-                  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;">
-                    <div>
-                      <div style="font-size:11px;font-weight:600;color:#fff;margin-bottom:2px;">catalogo-estoque.csv</div>
-                      <div style="font-size:9px;color:rgba(255,255,255,0.3);font-family:'JetBrains Mono',monospace;">12.450 produtos · live sync</div>
-                    </div>
-                    <div style="width:6px;height:6px;background:#00FFB2;border-radius:50%;box-shadow:0 0 6px #00FFB2;animation:pulse-dot 2s infinite;"></div>
-                  </div>
+            <div style="width:85%;max-width:500px;">
+              <div class="screen-mockup">
+                <div class="screen-mockup-top">
+                  <div class="screen-dot screen-dot-red"></div>
+                  <div class="screen-dot screen-dot-yellow"></div>
+                  <div class="screen-dot screen-dot-green"></div>
+                  <div class="screen-url-bar"><span class="screen-url-text">app.chatwoot.com &mdash; base de conhecimento</span></div>
                 </div>
-                <div style="margin-top:16px;padding:10px;background:rgba(0,255,178,0.05);border:1px solid rgba(0,255,178,0.2);">
-                  <div style="font-size:9px;color:#00FFB2;font-family:'JetBrains Mono',monospace;">Query: "Qual o prazo de entrega para SP?"</div>
-                  <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:6px;line-height:1.5;">→ Resultado: 3-5 dias úteis (simulação)</div>
+                <div class="screen-body">
+                  <img src="assets/demo_chatwoot.png" alt="Demo Chatwoot CRM Dashboard" loading="lazy">
+                  <div class="screen-live-badge"><span class="screen-live-dot"></span>RAG Ativo</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Slide 3 — Analytics -->
+          <!-- Slide 3 — Analytics mockup -->
           <div class="slide-visual" id="vis-2" aria-hidden="true">
-            <div style="width:82%;max-width:460px;">
-              <div style="background:#0D0D11;border:1px solid rgba(255,255,255,0.1);padding:20px;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
-                  <div>
-                    <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:4px;">Painel Analytics</div>
-                    <div style="font-size:18px;font-weight:700;letter-spacing:-0.5px;">Dashboard IA</div>
-                  </div>
-                  <div style="font-size:9px;color:#00FFB2;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:5px;">
-                    <span style="width:6px;height:6px;background:#00FFB2;border-radius:50%;display:inline-block;box-shadow:0 0 6px #00FFB2;animation:pulse-dot 2s infinite;"></span>
-                    Ao vivo
-                  </div>
+            <div style="width:85%;max-width:500px;">
+              <div class="screen-mockup">
+                <div class="screen-mockup-top">
+                  <div class="screen-dot screen-dot-red"></div>
+                  <div class="screen-dot screen-dot-yellow"></div>
+                  <div class="screen-dot screen-dot-green"></div>
+                  <div class="screen-url-bar"><span class="screen-url-text">dashboard.automatizze.ia &mdash; analytics</span></div>
                 </div>
-                <!-- Metric cards -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-                  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:12px;">
-                    <div style="font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Atendimentos</div>
-                    <div style="font-size:24px;font-weight:700;letter-spacing:-1px;color:#fff;">2.847</div>
-                    <div style="font-size:9px;color:#00FFB2;margin-top:4px;">↑ 34% vs mês ant.</div>
-                  </div>
-                  <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);padding:12px;">
-                    <div style="font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Resolvidos pela IA</div>
-                    <div style="font-size:24px;font-weight:700;letter-spacing:-1px;color:#fff;">91.3<span style="font-size:14px;font-weight:400;">%</span></div>
-                    <div style="font-size:9px;color:#00FFB2;margin-top:4px;">↑ 12% vs mês ant.</div>
-                  </div>
-                </div>
-                <!-- Mini bar chart -->
-                <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);padding:12px;">
-                  <div style="font-size:9px;color:rgba(255,255,255,0.3);margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">Atendimentos (7 dias)</div>
-                  <div style="display:flex;align-items:flex-end;gap:4px;height:40px;">
-                    <div style="flex:1;background:rgba(0,255,178,0.3);height:55%;"></div>
-                    <div style="flex:1;background:rgba(0,255,178,0.3);height:70%;"></div>
-                    <div style="flex:1;background:rgba(0,255,178,0.3);height:40%;"></div>
-                    <div style="flex:1;background:rgba(0,255,178,0.3);height:85%;"></div>
-                    <div style="flex:1;background:rgba(0,255,178,0.3);height:65%;"></div>
-                    <div style="flex:1;background:rgba(0,255,178,0.3);height:90%;"></div>
-                    <div style="flex:1;background:#00FFB2;height:100%;box-shadow:0 0 8px rgba(0,255,178,0.5);"></div>
-                  </div>
+                <div class="screen-body">
+                  <img src="assets/demo_recovery.png" alt="Demo Analytics Dashboard IA" loading="lazy">
+                  <div class="screen-live-badge"><span class="screen-live-dot"></span>Tempo Real</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Slide 4 — Summary -->
+          <!-- Slide 4 — Voice AI mockup -->
           <div class="slide-visual" id="vis-3" aria-hidden="true">
-            <div style="width:80%;max-width:420px;text-align:center;">
-              <div style="font-size:60px;margin-bottom:16px;">🤖</div>
-              <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#00FFB2;font-family:'JetBrains Mono',monospace;margin-bottom:16px;">Integração Completa</div>
-              <div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;">
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">Hubspot</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">Salesforce</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">Pipefy</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,178,0.15);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:#00FFB2;">WhatsApp</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">Instagram</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">Telegram</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">ERPs</div>
-                <div style="padding:5px 12px;border:1px solid rgba(255,255,255,0.1);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.5);">LGPD</div>
+            <div style="width:85%;max-width:500px;">
+              <div class="screen-mockup">
+                <div class="screen-mockup-top">
+                  <div class="screen-dot screen-dot-red"></div>
+                  <div class="screen-dot screen-dot-yellow"></div>
+                  <div class="screen-dot screen-dot-green"></div>
+                  <div class="screen-url-bar"><span class="screen-url-text">vapi.ai &mdash; voice agent configurado</span></div>
+                </div>
+                <div class="screen-body">
+                  <img src="assets/demo_voice.png" alt="Demo Agente de Voz IA Vapi" loading="lazy">
+                  <div class="screen-live-badge"><span class="screen-live-dot"></span>Em Liga&ccedil;&atilde;o</div>
+                </div>
               </div>
             </div>
           </div>
 
         </div><!-- /slides-visual -->
+
+        <!-- Text side -->
+        <div class="slides-text" role="presentation">
+
 
         <!-- Text side -->
         <div class="slides-text" role="presentation">
