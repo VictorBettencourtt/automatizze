@@ -41,8 +41,10 @@
     button { font-family: var(--font); cursor: pointer; border: none; background: none; }
     input, textarea, select { font-family: var(--font); }
 
+    /* ── LAYOUT ── */
+    .layout { display: block; min-height: 100vh; }
+
     /* ── SIDEBAR ── */
-    .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
     .sidebar {
       background: var(--bg-card);
       border-right: 1px solid var(--border);
@@ -53,6 +55,7 @@
       top: 0; left: 0; bottom: 0;
       width: 240px;
       z-index: 100;
+      transition: transform 0.3s var(--ease);
     }
     .sidebar-logo {
       padding: 0 1.5rem 2rem;
@@ -631,22 +634,87 @@
       margin-bottom: 1.5rem;
     }
 
-    /* Responsive */
-    @media (max-width: 1100px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    /* ── MOBILE TOPBAR ── */
+    .mobile-topbar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1rem;
+      height: 56px;
+      align-items: center;
+      justify-content: space-between;
     }
-    @media (max-width: 768px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .main { margin-left: 0; padding: 1.5rem; }
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .table-head, .proposal-row { grid-template-columns: 1fr 1fr auto; }
+    .mobile-topbar-logo { font-size: 16px; font-weight: 700; letter-spacing: -0.5px; }
+    .mobile-topbar-logo .dot { color: var(--accent); }
+    .mobile-menu-btn {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .mobile-menu-btn span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--text);
+      transition: all 0.3s ease;
+    }
+    /* Sidebar open on mobile */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 99;
+    }
+    .sidebar-overlay.show { display: block; }
+    .sidebar.mobile-open { transform: translateX(0) !important; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); }
+      .mobile-topbar { display: flex; }
+      .main { margin-left: 0 !important; padding: 1rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+      .stat-card { padding: 1.1rem 1rem; }
+      .stat-value { font-size: 26px; }
+      .topbar { flex-wrap: wrap; gap: 0.75rem; margin-bottom: 1.5rem; }
+      .topbar-title h1 { font-size: 20px; }
+      .btn-new { padding: 10px 16px; font-size: 12px; }
+      .proposals-header { flex-wrap: wrap; gap: 0.5rem; }
+      .search-bar { min-width: unset; width: 100%; }
+      .table-head { grid-template-columns: 1fr auto auto; padding: 0.6rem 0.75rem; }
       .table-head span:nth-child(2), .table-head span:nth-child(3) { display: none; }
+      .proposal-row { grid-template-columns: 1fr auto auto; padding: 0.75rem; gap: 0.5rem; }
       .proposal-row > *:nth-child(2), .proposal-row > *:nth-child(3) { display: none; }
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal { max-height: 92vh; border-radius: 16px 16px 0 0; }
+      .modal-body { padding: 1.25rem; }
+      .modal-footer { padding: 1rem 1.25rem; }
+      .form-grid { grid-template-columns: 1fr; }
+      .settings-section { padding: 0 0.25rem; }
+    }
+    @media (min-width: 901px) {
+      .mobile-topbar { display: none !important; }
+      .sidebar { transform: none !important; }
     }
   </style>
 </head>
 <body>
+
+<!-- Mobile topbar -->
+<div class="mobile-topbar">
+  <a href="index.html" class="mobile-topbar-logo">Automatizze<span class="dot">.</span>ia</a>
+  <div class="mobile-menu-btn" id="mobile-menu-btn" onclick="toggleSidebar()">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+<!-- Sidebar overlay for mobile -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
 
 <div class="layout">
 
@@ -1264,6 +1332,13 @@ function showToast(msg, type = 'success') {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') { closeModal(); closeConfirm(); }
 });
+
+function toggleSidebar() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  sidebar.classList.toggle('mobile-open');
+  overlay.classList.toggle('show');
+}
 
 init();
 </script>
