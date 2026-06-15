@@ -588,14 +588,13 @@ body:hover .cursor { opacity: 1; }
   opacity: 1;
 }
 
-/* Cap mockup size inside the home slides panel */
-.slides-visual .screen-mockup {
-  max-height: 70vh;
-  overflow: hidden;
+/* Properly fit mockup inside the home slides panel with breathing room */
+.slides-visual .slide-visual {
+  padding: 5vh 2.5rem;
+  box-sizing: border-box;
 }
-.slides-visual .screen-body {
-  max-height: 55vh;
-  aspect-ratio: unset;
+.slides-visual .screen-mockup {
+  box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
 }
 
 /* Laptop mockup frame */
