@@ -1202,7 +1202,24 @@
       var heroSub = document.querySelector('.hero-sub');
       if (heroSub) heroSub.innerHTML = 'Desenvolvemos uma solucao completa de IA para <strong>' + escHtml(p.client) + '</strong> — transformando radicalmente o atendimento, as vendas e a recuperacao de clientes do seu negocio.';
       var countEls = document.querySelectorAll('.hero-meta-item .val');
+      /* Entregas = numero de produtos selecionados */
       if (countEls[0]) countEls[0].textContent = n;
+
+      /* Dias de implementacao = soma dos dias numericos de cada timeline */
+      if (countEls[1]) {
+        /* Default days per product if no timeline was set */
+        var DEFAULT_DAYS = { whatsapp: 7, voice: 7, site: 21, crm: 5, email: 10 };
+        var totalDays = prods.reduce(function(acc, k) {
+          var raw = timelines[k] || '';
+          /* Extract first number from string like "7 dias uteis", "21 dias", "3 semanas" */
+          var match = raw.match(/(\d+)/);
+          var days = match ? parseInt(match[1], 10) : (DEFAULT_DAYS[k] || 7);
+          /* Convert weeks to days */
+          if (/semana/i.test(raw)) days = days * 7;
+          return acc + days;
+        }, 0);
+        countEls[1].textContent = totalDays || (n * 7);
+      }
 
       /* ── 3. Hero tag: add client name ── */
       var heroTag = document.querySelector('.hero-tag');
