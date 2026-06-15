@@ -1064,75 +1064,46 @@
       .intro-section { padding: 80px 1.5rem; }
       .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
 
-      /* ---- DELIVERIES: hide desktop sticky, show mobile carousel ---- */
+      /* ---- DELIVERIES: desktop spacer height ---- */
+      #deliveries-space { height: 500vh; }
+
+      /* ---- DELIVERIES: hide desktop sticky, show mobile section ---- */
       .deliveries-section { position: static; overflow: visible; }
       .deliveries-sticky-wrapper { display: none !important; }
       #deliveries-space { display: none !important; height: 0 !important; }
       .delivery-dots { display: none; }
 
-      /* Mobile horizontal carousel */
-      .mobile-carousel {
-        display: flex;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
+      /* Mobile cards */
+      .mobile-cards {
+        display: block;
+        padding: 0;
         border-top: 1px solid var(--color-border);
+      }
+      .mobile-card {
         border-bottom: 1px solid var(--color-border);
+        overflow: hidden;
       }
-      .mobile-carousel::-webkit-scrollbar { display: none; }
-      .mobile-slide {
-        flex: none;
-        width: 100vw;
-        scroll-snap-align: start;
-        display: flex;
-        flex-direction: column;
-      }
-      .mobile-slide-img {
-        width: 100%;
+      .mobile-card-img {
         background: var(--color-bg-card);
+        padding: 1.25rem 1.25rem 0;
         border-bottom: 1px solid var(--color-border);
       }
-      .mobile-slide-img .screen-mockup {
-        max-width: 100%;
-        border-radius: 0;
-        margin: 1.5rem;
+      .mobile-card-img .screen-mockup { max-width: 100%; }
+      .mobile-card-img .screen-mockup-top { border-radius: 8px 8px 0 0; }
+      .mobile-card-img .screen-body { border-radius: 0 0 8px 8px; }
+      .mobile-card-body {
+        padding: 1.75rem 1.25rem;
       }
-      .mobile-slide-img .screen-mockup-top {
-        border-radius: 8px 8px 0 0;
+      .mobile-card-body .delivery-h3 {
+        font-size: clamp(24px, 6vw, 36px);
+        margin-bottom: 0.75rem;
       }
-      .mobile-slide-img .screen-body {
-        border-radius: 0 0 8px 8px;
+      .mobile-card-body .delivery-desc {
+        font-size: 14px;
+        margin-bottom: 1.5rem;
       }
-      .mobile-slide-text {
-        padding: 2rem 1.5rem;
-      }
-      /* Carousel nav dots (mobile) */
-      .mobile-carousel-dots {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        padding: 1.25rem 0;
-      }
-      .mobile-carousel-dot {
-        width: 6px; height: 6px;
-        border-radius: 50%;
-        background: var(--color-border);
-        transition: background 0.3s ease, transform 0.3s ease;
-        cursor: pointer;
-      }
-      .mobile-carousel-dot.active {
-        background: var(--color-accent);
-        transform: scale(1.4);
-      }
-      /* Swipe hint */
-      .mobile-swipe-hint {
-        text-align: center;
-        font-size: 9px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        color: var(--color-text-muted);
-        padding-bottom: 0.75rem;
+      .mobile-card-body .delivery-features {
+        margin-bottom: 1.25rem;
       }
 
       /* Mobile CTA floating bar */
@@ -1174,10 +1145,10 @@
       .cta-section .cta-buttons { display: none; }
     }
     @media (min-width: 901px) {
-      .mobile-carousel { display: none; }
-      .mobile-carousel-dots { display: none; }
-      .mobile-swipe-hint { display: none; }
+      .mobile-cards { display: none !important; }
       .mobile-cta-bar { display: none !important; }
+      /* Desktop: restore spacer height */
+      #deliveries-space { display: block !important; height: 500vh !important; }
     }
   </style>
 </head>
@@ -1505,13 +1476,165 @@
 
     </div>
 
-    <!-- Scroll spacer: 5 deliveries × 100vh each (hidden on mobile via CSS) -->
+    <!-- Scroll spacer: 5 deliveries (hidden on mobile, restored on desktop via CSS) -->
     <div id="deliveries-space"></div>
 
-    <!-- Mobile horizontal carousel (built by JS on mobile) -->
-    <div class="mobile-carousel" id="mobile-carousel"></div>
-    <div class="mobile-swipe-hint" id="mobile-swipe-hint">← deslize para ver mais →</div>
-    <div class="mobile-carousel-dots" id="mobile-carousel-dots"></div>
+    <!-- ===================================================
+         MOBILE STATIC CARDS (shown on mobile, hidden on desktop)
+    =================================================== -->
+    <div class="mobile-cards">
+
+      <!-- Card 1: WhatsApp -->
+      <div class="mobile-card">
+        <div class="mobile-card-img">
+          <div class="screen-mockup">
+            <div class="screen-mockup-top">
+              <div class="screen-dot screen-dot-red"></div>
+              <div class="screen-dot screen-dot-yellow"></div>
+              <div class="screen-dot screen-dot-green"></div>
+              <div class="screen-url-bar"><span class="screen-url-text">automatizze.ia &mdash; agente whatsapp</span></div>
+            </div>
+            <div class="screen-body">
+              <img src="assets/demo_whatsapp.png" alt="Demo Agente WhatsApp IA" loading="lazy">
+              <div class="screen-live-badge"><span class="screen-live-dot"></span>Ao Vivo</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-card-body">
+          <div class="delivery-num">Entrega 01 / 05</div>
+          <h3 class="delivery-h3">Agente de IA<br>no WhatsApp</h3>
+          <p class="delivery-desc">Um agente inteligente treinado com o DNA do seu neg&oacute;cio &mdash; atende, qualifica leads e agenda reuni&otilde;es 24h por dia, 7 dias por semana.</p>
+          <ul class="delivery-features">
+            <li class="delivery-feature">Respostas instant&acirc;neas em linguagem natural</li>
+            <li class="delivery-feature">Qualifica&ccedil;&atilde;o autom&aacute;tica de leads por fluxo</li>
+            <li class="delivery-feature">Integra&ccedil;&atilde;o com seu CRM e agenda</li>
+            <li class="delivery-feature">Relat&oacute;rios de conversas e m&eacute;tricas</li>
+          </ul>
+          <span class="delivery-visual-tag">Entrega 01 &mdash; WhatsApp IA</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Chatwoot -->
+      <div class="mobile-card">
+        <div class="mobile-card-img">
+          <div class="screen-mockup">
+            <div class="screen-mockup-top">
+              <div class="screen-dot screen-dot-red"></div>
+              <div class="screen-dot screen-dot-yellow"></div>
+              <div class="screen-dot screen-dot-green"></div>
+              <div class="screen-url-bar"><span class="screen-url-text">app.chatwoot.com &mdash; inbox</span></div>
+            </div>
+            <div class="screen-body">
+              <img src="assets/demo_chatwoot.png" alt="Demo Chatwoot Dashboard" loading="lazy">
+              <div class="screen-live-badge"><span class="screen-live-dot"></span>Demo</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-card-body">
+          <div class="delivery-num">Entrega 02 / 05</div>
+          <h3 class="delivery-h3">Plataforma Chatwoot<br>+ Treinamento</h3>
+          <p class="delivery-desc">Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um s&oacute; lugar, com treinamento hands-on incluso.</p>
+          <ul class="delivery-features">
+            <li class="delivery-feature">Instala&ccedil;&atilde;o e configura&ccedil;&atilde;o no seu servidor</li>
+            <li class="delivery-feature">Integra&ccedil;&atilde;o com WhatsApp Business API</li>
+            <li class="delivery-feature">Caixas de entrada por setor</li>
+            <li class="delivery-feature">Treinamento completo para o time (online)</li>
+          </ul>
+          <span class="delivery-visual-tag">Entrega 02 &mdash; Chatwoot</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Voice AI -->
+      <div class="mobile-card">
+        <div class="mobile-card-img">
+          <div class="screen-mockup">
+            <div class="screen-mockup-top">
+              <div class="screen-dot screen-dot-red"></div>
+              <div class="screen-dot screen-dot-yellow"></div>
+              <div class="screen-dot screen-dot-green"></div>
+              <div class="screen-url-bar"><span class="screen-url-text">vapi.ai &mdash; voice agent</span></div>
+            </div>
+            <div class="screen-body">
+              <img src="assets/demo_voice.png" alt="Demo Agente Voz IA" loading="lazy">
+              <div class="screen-live-badge"><span class="screen-live-dot"></span>Em Liga&ccedil;&atilde;o</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-card-body">
+          <div class="delivery-num">Entrega 03 / 05</div>
+          <h3 class="delivery-h3">Agente IA<br>de Liga&ccedil;&atilde;o (Vapi)</h3>
+          <p class="delivery-desc">Liga&ccedil;&otilde;es autom&aacute;ticas com voz de IA ultra-realista. O cliente nem percebe que &eacute; IA &mdash; faz follow-ups e recupera oportunidades perdidas.</p>
+          <ul class="delivery-features">
+            <li class="delivery-feature">Voz de IA personalizada para sua marca</li>
+            <li class="delivery-feature">Fluxo de conversa por liga&ccedil;&atilde;o configurado</li>
+            <li class="delivery-feature">Integra&ccedil;&atilde;o com lista de leads e CRM</li>
+            <li class="delivery-feature">Transcri&ccedil;&atilde;o e an&aacute;lise de chamadas</li>
+          </ul>
+          <span class="delivery-visual-tag">Entrega 03 &mdash; Vapi IA</span>
+        </div>
+      </div>
+
+      <!-- Card 4: E-commerce -->
+      <div class="mobile-card">
+        <div class="mobile-card-img">
+          <div class="screen-mockup">
+            <div class="screen-mockup-top">
+              <div class="screen-dot screen-dot-red"></div>
+              <div class="screen-dot screen-dot-yellow"></div>
+              <div class="screen-dot screen-dot-green"></div>
+              <div class="screen-url-bar"><span class="screen-url-text">loja.suaempresa.com.br</span></div>
+            </div>
+            <div class="screen-body">
+              <img src="assets/demo_ecommerce.png" alt="Demo E-commerce" loading="lazy">
+              <div class="screen-live-badge"><span class="screen-live-dot"></span>Loja Online</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-card-body">
+          <div class="delivery-num">Entrega 04 / 05</div>
+          <h3 class="delivery-h3">Desenvolvimento<br>do Site E-commerce</h3>
+          <p class="delivery-desc">Loja online completa com design premium, otimizada para convers&atilde;o e para motores de busca. Uma vitrine digital que vende por voc&ecirc; enquanto dorme.</p>
+          <ul class="delivery-features">
+            <li class="delivery-feature">Design exclusivo e responsivo (mobile first)</li>
+            <li class="delivery-feature">Cat&aacute;logo de produtos e gest&atilde;o de estoque</li>
+            <li class="delivery-feature">Gateway de pagamento integrado (Pix, cart&atilde;o)</li>
+            <li class="delivery-feature">Painel admin para voc&ecirc; gerenciar sozinho</li>
+          </ul>
+          <span class="delivery-visual-tag">Entrega 04 &mdash; E-commerce</span>
+        </div>
+      </div>
+
+      <!-- Card 5: Cart Recovery -->
+      <div class="mobile-card">
+        <div class="mobile-card-img">
+          <div class="screen-mockup">
+            <div class="screen-mockup-top">
+              <div class="screen-dot screen-dot-red"></div>
+              <div class="screen-dot screen-dot-yellow"></div>
+              <div class="screen-dot screen-dot-green"></div>
+              <div class="screen-url-bar"><span class="screen-url-text">dashboard &mdash; recupera&ccedil;&atilde;o de carrinho</span></div>
+            </div>
+            <div class="screen-body">
+              <img src="assets/demo_recovery.png" alt="Demo Recuperacao de Carrinho" loading="lazy">
+              <div class="screen-live-badge"><span class="screen-live-dot"></span>Autom&aacute;tico</div>
+            </div>
+          </div>
+        </div>
+        <div class="mobile-card-body">
+          <div class="delivery-num">Entrega 05 / 05</div>
+          <h3 class="delivery-h3">Recupera&ccedil;&atilde;o de<br>Carrinho com IA</h3>
+          <p class="delivery-desc">Quando um cliente abandona o carrinho, o sistema dispara liga&ccedil;&atilde;o de IA e mensagem WhatsApp automaticamente para recuperar a venda.</p>
+          <ul class="delivery-features">
+            <li class="delivery-feature">Gatilho autom&aacute;tico de abandono de carrinho</li>
+            <li class="delivery-feature">Liga&ccedil;&atilde;o de IA com oferta personalizada</li>
+            <li class="delivery-feature">Mensagem WhatsApp com link direto ao carrinho</li>
+            <li class="delivery-feature">Relat&oacute;rio de vendas recuperadas</li>
+          </ul>
+          <span class="delivery-visual-tag">Entrega 05 &mdash; Recupera&ccedil;&atilde;o IA</span>
+        </div>
+      </div>
+
+    </div><!-- /.mobile-cards -->
 
   </section>
 
@@ -1835,87 +1958,18 @@
     /* ---- YEAR ---- */
     document.querySelectorAll('.year').forEach(el => el.textContent = new Date().getFullYear());
 
-    /* ---- MOBILE: horizontal carousel ---- */
+    /* ---- MOBILE: CTA bar trigger ---- */
     (function() {
       if (window.innerWidth > 900) return;
-
-      // Data for each slide
-      const slides = [
-        { num: '01 / 05', title: 'Agente de IA<br>no WhatsApp',       img: 'assets/demo_whatsapp.png',  url: 'automatizze.ia — agente whatsapp', badge: 'Ao Vivo',    tag: 'Entrega 01 — WhatsApp IA',
-          desc: 'Atende, qualifica e converte leads 24h/dia. Responde dúvidas, agenda reuniões e encaminha para humano só quando necessário.',
-          features: ['Respostas instantâneas em linguagem natural','Qualificação automática de leads','Integração com seu CRM e agenda','Relatórios de conversas e métricas'] },
-        { num: '02 / 05', title: 'Plataforma Chatwoot<br>+ Treinamento', img: 'assets/demo_chatwoot.png', url: 'app.chatwoot.com — inbox',           badge: 'Demo',       tag: 'Entrega 02 — Chatwoot',
-          desc: 'Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um só lugar.',
-          features: ['Instalação e configuração no seu servidor','Integração com WhatsApp Business API','Caixas de entrada por setor','Treinamento completo do time'] },
-        { num: '03 / 05', title: 'Agente IA<br>de Ligação (Vapi)',     img: 'assets/demo_voice.png',     url: 'vapi.ai — voice agent',              badge: 'Em Ligação', tag: 'Entrega 03 — Vapi IA',
-          desc: 'Ligações automáticas com voz de IA ultra-realista. O cliente nem percebe que é IA.',
-          features: ['Voz de IA personalizada para sua marca','Fluxo de conversa configurado','Integração com lista de leads e CRM','Transcrição e análise de chamadas'] },
-        { num: '04 / 05', title: 'Desenvolvimento<br>do Site E-commerce',  img: 'assets/demo_ecommerce.png', url: 'loja.suaempresa.com.br',          badge: 'Loja Online',tag: 'Entrega 04 — E-commerce',
-          desc: 'Loja online completa com design premium, otimizada para conversão e para motores de busca.',
-          features: ['Design exclusivo responsivo (mobile first)','Catálogo de produtos + gestão de estoque','Gateway de pagamento integrado (Pix, cartão)','Painel admin para você gerenciar sozinho'] },
-        { num: '05 / 05', title: 'Recuperação de<br>Carrinho com IA',    img: 'assets/demo_recovery.png',  url: 'dashboard — recuperação de carrinho', badge: 'Automático', tag: 'Entrega 05 — Recuperação IA',
-          desc: 'Quando um cliente abandona o carrinho, o sistema dispara ligação de IA e mensagem WhatsApp automaticamente.',
-          features: ['Gatilho automático de abandono de carrinho','Ligação de IA com oferta personalizada','Mensagem WhatsApp com link direto ao carrinho','Relatório de vendas recuperadas'] },
-      ];
-
-      const carousel = document.getElementById('mobile-carousel');
-      const dotsWrap = document.getElementById('mobile-carousel-dots');
-      if (!carousel) return;
-
-      // Build slides
-      carousel.innerHTML = slides.map((s, i) => `
-        <div class="mobile-slide">
-          <div class="mobile-slide-img">
-            <div class="screen-mockup">
-              <div class="screen-mockup-top">
-                <div class="screen-dot screen-dot-red"></div>
-                <div class="screen-dot screen-dot-yellow"></div>
-                <div class="screen-dot screen-dot-green"></div>
-                <div class="screen-url-bar"><span class="screen-url-text">${s.url}</span></div>
-              </div>
-              <div class="screen-body">
-                <img src="${s.img}" alt="${s.tag}" loading="lazy">
-                <div class="screen-live-badge"><span class="screen-live-dot"></span>${s.badge}</div>
-              </div>
-            </div>
-          </div>
-          <div class="mobile-slide-text">
-            <div class="delivery-num">${s.num}</div>
-            <h3 class="delivery-h3">${s.title}</h3>
-            <p class="delivery-desc">${s.desc}</p>
-            <ul class="delivery-features">${s.features.map(f => `<li class="delivery-feature">${f}</li>`).join('')}</ul>
-            <span class="delivery-visual-tag">${s.tag}</span>
-          </div>
-        </div>
-      `).join('');
-
-      // Build dots
-      if (dotsWrap) {
-        dotsWrap.innerHTML = slides.map((_, i) =>
-          `<div class="mobile-carousel-dot${i===0?' active':''}" data-idx="${i}"></div>`
-        ).join('');
-        dotsWrap.querySelectorAll('.mobile-carousel-dot').forEach(dot => {
-          dot.addEventListener('click', () => {
-            carousel.scrollTo({ left: parseInt(dot.dataset.idx) * window.innerWidth, behavior: 'smooth' });
-          });
+      var ctaSection = document.getElementById('fechar');
+      var mobileCta  = document.getElementById('mobile-cta-bar');
+      if (!ctaSection || !mobileCta) return;
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          mobileCta.classList.toggle('show', e.isIntersecting);
         });
-      }
-
-      // Update dots on scroll
-      carousel.addEventListener('scroll', () => {
-        const idx = Math.round(carousel.scrollLeft / window.innerWidth);
-        dotsWrap?.querySelectorAll('.mobile-carousel-dot').forEach((d, i) => d.classList.toggle('active', i === idx));
-      }, { passive: true });
-
-      // Show mobile CTA bar when CTA section visible
-      const ctaSection = document.getElementById('fechar');
-      const mobileCta  = document.getElementById('mobile-cta-bar');
-      if (ctaSection && mobileCta) {
-        const ctaObs = new IntersectionObserver(entries => {
-          entries.forEach(e => mobileCta.classList.toggle('show', e.isIntersecting));
-        }, { threshold: 0.1 });
-        ctaObs.observe(ctaSection);
-      }
+      }, { threshold: 0.1 });
+      obs.observe(ctaSection);
     })();
   </script>
 
@@ -1925,7 +1979,7 @@
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
       </svg>
-      Fechar Negócio pelo WhatsApp
+      Fechar Neg&oacute;cio pelo WhatsApp
     </a>
   </div>
 
