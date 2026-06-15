@@ -1517,22 +1517,6 @@ Responda em formato JSON:
   }
 }
 
-    updatedAt:      new Date().toISOString(),
-  };
-
-  if (editingId) {
-    proposals = proposals.map(p => p.id === editingId ? data : p);
-  } else {
-    proposals.unshift(data);
-  }
-
-  localStorage.setItem('azz_proposals', JSON.stringify(proposals));
-  renderList();
-  updateStats();
-  closeModal();
-  showToast(editingId ? '✓ Proposta atualizada' : '✓ Proposta criada! Agora faça download do HTML.', 'success');
-}
-
 /* ── DELETE ── */
 function askDelete(id) {
   deleteId = id;
@@ -1718,7 +1702,7 @@ const PRODUCT_DATA = {
   voice:    { title: "Agente IA<br>de Ligacao (Vapi)", num_label: "IA de Ligacao", img: "assets/demo_voice.png", url: "vapi.ai &mdash; voice agent", badge: "Em Ligacao", tag: "Vapi IA", desc: "Ligacoes automatizadas com voz de IA ultra-realista. O cliente nem percebe que e IA &mdash; faz follow-ups e recupera oportunidades perdidas.", features: ["Voz de IA personalizada para sua marca","Fluxo de conversa configurado","Integracao com lista de leads e CRM","Transcricao e analise de chamadas"] },
   site:     { title: "Desenvolvimento<br>do Site", num_label: "Site Premium", img: "assets/demo_ecommerce.png", url: "loja.suaempresa.com.br", badge: "Loja Online", tag: "Site / E-commerce", desc: "Site ou e-commerce com design premium, otimizado para conversao e para motores de busca. Uma vitrine digital que vende por voce enquanto dorme.", features: ["Design exclusivo e responsivo (mobile first)","Catalogo de produtos e gestao de estoque","Gateway de pagamento integrado (Pix, cartao)","Painel admin para voce gerenciar sozinho"] },
   crm:      { title: "Instalacao de CRM<br>(Chatwoot)", num_label: "CRM Chatwoot", img: "assets/demo_chatwoot.png", url: "app.chatwoot.com &mdash; inbox", badge: "Demo", tag: "CRM / Chatwoot", desc: "Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um so lugar, com treinamento hands-on incluso.", features: ["Instalacao e configuracao no seu servidor","Integracao com WhatsApp Business API","Caixas de entrada por setor","Treinamento completo para o time"] },
-  email:    { title: "Disparos de<br>E-mail Marketing", num_label: "E-mail Marketing", img: "assets/demo_email.png", url: "campaigns.automatizze.ia &mdash; email mkt", badge: "Enviando", tag: "E-mail Marketing", desc: "Campanhas de e-mail automaticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisao.", features: ["Configuracao de automacoes de e-mail","Segmentacao avancada de lista","Templates de alta conversao","Relatorios de abertura e cliques"] } }
+  email:    { title: "Disparos de<br>E-mail Marketing", num_label: "E-mail Marketing", img: "assets/demo_email.png", url: "campaigns.automatizze.ia &mdash; email mkt", badge: "Enviando", tag: "E-mail Marketing", desc: "Campanhas de e-mail automaticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisao.", features: ["Configuracao de automacoes de e-mail","Segmentacao avancada de lista","Templates de alta conversao","Relatorios de abertura e cliques"] }
 };
 
 function buildProposalHTML(p) {
