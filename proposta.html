@@ -1325,6 +1325,23 @@
         '</div>';
 
         timelineEl.innerHTML = html + supportPhase;
+
+        /* Register newly injected .reveal elements with the scroll observer */
+        if (typeof window.observeNewRevealEls === 'function') {
+          window.observeNewRevealEls(timelineEl);
+        } else {
+          /* Fallback: if observer not ready yet, mark all visible immediately */
+          setTimeout(function() {
+            timelineEl.querySelectorAll('.reveal').forEach(function(el) {
+              if (typeof window.observeNewRevealEls === 'function') {
+                window.observeNewRevealEls(timelineEl);
+              } else {
+                el.classList.add('visible');
+              }
+            });
+          }, 300);
+        }
+        }
       }
 
       /* ── 8. CTA WhatsApp ── */
@@ -2039,15 +2056,23 @@
 
     /* ---- REVEAL ON SCROLL ---- */
     const revealEls = document.querySelectorAll('.reveal');
-    const revealObs = new IntersectionObserver(entries => {
+    window.revealObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          revealObs.unobserve(e.target);
+          window.revealObs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-    revealEls.forEach(el => revealObs.observe(el));
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => window.revealObs.observe(el));
+
+    /* Helper: called by dynamic loader after injecting new elements */
+    window.observeNewRevealEls = function(container) {
+      if (!window.revealObs) return;
+      (container || document).querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
+        window.revealObs.observe(el);
+      });
+    };
 
     /* ---- HERO CANVAS (animated gradient orbs) ---- */
     (function() {
