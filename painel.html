@@ -767,12 +767,18 @@
           <h1>Propostas Comerciais</h1>
           <p>Gerencie e acompanhe todas as suas propostas</p>
         </div>
-        <button class="btn-new" onclick="openModal()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 5v14M5 12h14"/>
-          </svg>
-          Nova Proposta
-        </button>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+          <button class="btn-new" style="background:rgba(0,255,178,0.12);color:var(--accent);border:1px solid rgba(0,255,178,0.3);" onclick="exportProposalsJson()" title="Gera o arquivo proposals.json — depois e so commitar no GitHub para as URLs ficarem ativas">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M7 10l5 5 5-5M12 15V3"/></svg>
+            Publicar Propostas
+          </button>
+          <button class="btn-new" onclick="openModal()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+            Nova Proposta
+          </button>
+        </div>
       </div>
 
       <!-- Stats -->
@@ -1511,50 +1517,253 @@ Responda em formato JSON:
   }
 }
 
-/* â”€â”€ GENERATE & DOWNLOAD PROPOSAL HTML â”€â”€ */
+    updatedAt:      new Date().toISOString(),
+  };
+
+  if (editingId) {
+    proposals = proposals.map(p => p.id === editingId ? data : p);
+  } else {
+    proposals.unshift(data);
+  }
+
+  localStorage.setItem('azz_proposals', JSON.stringify(proposals));
+  renderList();
+  updateStats();
+  closeModal();
+  showToast(editingId ? '✓ Proposta atualizada' : '✓ Proposta criada! Agora faça download do HTML.', 'success');
+}
+
+/* ── DELETE ── */
+function askDelete(id) {
+  deleteId = id;
+  document.getElementById('confirm-overlay').classList.add('active');
+  document.getElementById('confirm-ok').onclick = () => {
+    proposals = proposals.filter(p => p.id !== id);
+    localStorage.setItem('azz_proposals', JSON.stringify(proposals));
+    renderList();
+    updateStats();
+    closeConfirm();
+    showToast('Proposta excluída', 'error');
+  };
+}
+function closeConfirm() {
+  document.getElementById('confirm-overlay').classList.remove('active');
+  deleteId = null;
+}
+
+/* ── RENDER LIST ── */
+function renderList() {
+  const q = (document.getElementById('search-input')?.value || '').toLowerCase();
+  const filtered = proposals.filter(p => p.client.toLowerCase().includes(q));
+
+  const container = document.getElementById('proposal-list');
+  const empty = document.getElementById('empty-state');
+
+  if (!filtered.length) {
+    container.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const statusMap = {
+    open:  ['status-open',  'Em Aberto'],
+    won:   ['status-won',   'Fechada ✓'],
+    lost:  ['status-lost',  'Perdida'],
+    draft: ['status-draft', 'Rascunho'],
+  };
+
+  container.innerHTML = filtered.map(p => {
+    const [cls, label] = statusMap[p.status] || statusMap.draft;
+    const date = new Date(p.createdAt).toLocaleDateString('pt-BR');
+    const val  = p.value ? `R$ ${p.value}` : '--';
+    const url  = p.slug ? `automatizze.ia.br/${p.slug}` : '--';
+    return `
+      <div class="proposal-row" onclick="openModal('${p.id}')">
+        <div class="client-info">
+          <div class="client-name">${escHtml(p.client)}</div>
+          <a href="https://automatizze.ia.br/${p.slug}" target="_blank" onclick="event.stopPropagation()" style="color:var(--accent);font-family:var(--mono);font-size:10px;opacity:0.7;text-decoration:none;display:block;">${url}</a>
+        </div>
+        <div class="proposal-value">${val}</div>
+        <div class="client-date" style="font-size:12px;color:var(--text-3)">${date}</div>
+        <div><span class="status-badge ${cls}">${label}</span></div>
+        <div class="row-actions" onclick="event.stopPropagation()">
+          <button class="row-btn" onclick="downloadProposalById('${p.id}')" title="Download HTML">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+            </svg>
+          </button>
+          <button class="row-btn" onclick="askDelete('${p.id}')" title="Excluir">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6M10 11v6M14 11v6M9 6V4h6v2"/>
+            </svg>
+          </button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ── STATS ── */
+function updateStats() {
+  const total = proposals.length;
+  const open  = proposals.filter(p => p.status === 'open').length;
+  const won   = proposals.filter(p => p.status === 'won').length;
+  const vol   = proposals
+    .filter(p => p.status === 'open' || p.status === 'won')
+    .reduce((acc, p) => acc + (p.valueNum || 0), 0);
+
+  document.getElementById('stat-total').textContent = total;
+  document.getElementById('stat-open').textContent  = open;
+  document.getElementById('stat-won').textContent   = won;
+  document.getElementById('stat-value').textContent = vol
+    ? `R$ ${vol.toLocaleString('pt-BR')}`
+    : 'R$ 0';
+}
+
+/* ── AI GENERATION ── */
+async function generateWithAI() {
+  const transcription = document.getElementById('ai-transcription').value.trim();
+  if (!transcription) { showToast('Cole a transcrição primeiro', 'error'); return; }
+
+  const apiKey = document.getElementById('modal-api-key').value.trim() || settings.apiKey;
+  if (!apiKey) {
+    showToast('Insira sua Gemini API Key', 'error');
+    switchView('settings');
+    closeModal();
+    return;
+  }
+
+  const model = settings.model || 'gemini-2.0-flash';
+  const btn   = document.getElementById('btn-generate');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spinner"></div> Analisando com IA...';
+
+  const prompt = `Você é um assistente que analisa transcrições de reuniões comerciais e extrai informações para propostas.
+
+Analise a seguinte transcrição e extraia:
+1. Nome do cliente/empresa
+2. Slug URL (nome simplificado, apenas letras minúsculas e hifens)
+3. Serviços/entregas discutidos (Mapeie para: whatsapp, voice, site, crm, email)
+4. Valor aproximado mencionado (apenas números)
+5. Observações importantes
+
+Transcrição:
+---
+${transcription}
+---
+
+Responda em formato JSON:
+{
+  "cliente": "nome",
+  "slug": "slug-url",
+  "produtos": ["whatsapp","voice"],
+  "valor": "15000",
+  "observacoes": "resumo das observações"
+}`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: 'application/json', temperature: 0.3 }
+        })
+      }
+    );
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error?.message || 'Erro na API');
+    }
+
+    const data = await res.json();
+    const raw  = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    const parsed = JSON.parse(raw);
+
+    if (parsed.cliente)      document.getElementById('f-client').value = parsed.cliente;
+    if (parsed.slug) {
+        document.getElementById('f-slug').value = parsed.slug;
+        document.getElementById('slug-preview').textContent = parsed.slug;
+    }
+    if (parsed.valor)        document.getElementById('f-value').value = parsed.valor;
+    if (parsed.produtos)     setSelectedProducts(parsed.produtos);
+    if (parsed.observacoes)  document.getElementById('f-notes').value = parsed.observacoes;
+
+    document.getElementById('ai-result-content').textContent = JSON.stringify(parsed, null, 2);
+    document.getElementById('ai-result').classList.add('show');
+
+    switchTab(0);
+    showToast('✓ Proposta gerada! Revise e salve.', 'success');
+
+    settings.apiKey = apiKey;
+    localStorage.setItem('azz_settings', JSON.stringify(settings));
+
+  } catch(e) {
+    showToast('Erro: ' + e.message, 'error');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+    </svg> Gerar Proposta com IA`;
+  }
+}
+
+/* ── GENERATE & DOWNLOAD PROPOSAL HTML ── */
 const PRODUCT_DATA = {
   whatsapp: { title: "Agente de IA<br>no WhatsApp", num_label: "WhatsApp IA", img: "assets/demo_whatsapp.png", url: "automatizze.ia &mdash; agente whatsapp", badge: "Ao Vivo", tag: "WhatsApp IA", desc: "Um agente inteligente treinado com o DNA do seu negocio &mdash; atende, qualifica leads e agenda reunioes 24h por dia, 7 dias por semana.", features: ["Respostas instantaneas em linguagem natural","Qualificacao automatica de leads","Integracao com seu CRM e agenda","Relatorios de conversas e metricas"] },
   voice:    { title: "Agente IA<br>de Ligacao (Vapi)", num_label: "IA de Ligacao", img: "assets/demo_voice.png", url: "vapi.ai &mdash; voice agent", badge: "Em Ligacao", tag: "Vapi IA", desc: "Ligacoes automatizadas com voz de IA ultra-realista. O cliente nem percebe que e IA &mdash; faz follow-ups e recupera oportunidades perdidas.", features: ["Voz de IA personalizada para sua marca","Fluxo de conversa configurado","Integracao com lista de leads e CRM","Transcricao e analise de chamadas"] },
   site:     { title: "Desenvolvimento<br>do Site", num_label: "Site Premium", img: "assets/demo_ecommerce.png", url: "loja.suaempresa.com.br", badge: "Loja Online", tag: "Site / E-commerce", desc: "Site ou e-commerce com design premium, otimizado para conversao e para motores de busca. Uma vitrine digital que vende por voce enquanto dorme.", features: ["Design exclusivo e responsivo (mobile first)","Catalogo de produtos e gestao de estoque","Gateway de pagamento integrado (Pix, cartao)","Painel admin para voce gerenciar sozinho"] },
   crm:      { title: "Instalacao de CRM<br>(Chatwoot)", num_label: "CRM Chatwoot", img: "assets/demo_chatwoot.png", url: "app.chatwoot.com &mdash; inbox", badge: "Demo", tag: "CRM / Chatwoot", desc: "Central unificada de conversas para todo o time: WhatsApp, e-mail e outros canais em um so lugar, com treinamento hands-on incluso.", features: ["Instalacao e configuracao no seu servidor","Integracao com WhatsApp Business API","Caixas de entrada por setor","Treinamento completo para o time"] },
-  email:    { title: "Disparos de<br>E-mail Marketing", num_label: "E-mail Marketing", img: "assets/demo_email.png", url: "campaigns.automatizze.ia &mdash; email mkt", badge: "Enviando", tag: "E-mail Marketing", desc: "Campanhas de e-mail automaticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisao.", features: ["Configuracao de automacoes de e-mail","Segmentacao avancada de lista","Templates de alta conversao","Relatorios de abertura e cliques"] }
+  email:    { title: "Disparos de<br>E-mail Marketing", num_label: "E-mail Marketing", img: "assets/demo_email.png", url: "campaigns.automatizze.ia &mdash; email mkt", badge: "Enviando", tag: "E-mail Marketing", desc: "Campanhas de e-mail automaticas e segmentadas para nutrir leads, recuperar clientes inativos e impulsionar vendas com precisao.", features: ["Configuracao de automacoes de e-mail","Segmentacao avancada de lista","Templates de alta conversao","Relatorios de abertura e cliques"] } }
 };
 
 function buildProposalHTML(p) {
-  const prods = (p.products || []).filter(k => PRODUCT_DATA[k]);
-  const timelines = p.timelines || {};
-  return `<!doctype html>
-<html lang="pt-BR"><head><meta charset="UTF-8"><title>Proposta Comercial &mdash; ${escHtml(p.client)}</title></head>
-<body style="margin:0;font-family:sans-serif;background:#000;color:#fff;text-align:center;padding:2rem;">
-<div>
-  <h1 style="font-size:48px;font-weight:700;">Proposta para ${escHtml(p.client)}</h1>
-  <p style="color:rgba(255,255,255,0.5);">URL: automatizze.ia.br/${p.slug}</p>
-  <div style="background:#0D0D11;border:1px solid rgba(255,255,255,0.1);padding:2rem;border-radius:12px;max-width:560px;margin:2rem auto;text-align:left;">
-    <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem;">ServiÃ§os & Prazos</div>
-    ${prods.map(k => {
-      const prazo = timelines[k] ? ` <span style="float:right;font-size:11px;color:#00FFB2;font-family:monospace">${escHtml(timelines[k])}</span>` : '';
-      return `<div style="padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:14px;display:flex;justify-content:space-between;align-items:center;"><span>âœ“ ${PRODUCT_DATA[k].num_label}</span><span style="font-size:11px;color:#00FFB2;font-family:monospace">${escHtml(timelines[k] || '')}</span></div>`;
-    }).join('')}
-    ${p.value ? `<div style="margin-top:1.5rem;"><div style="font-size:11px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:2px;margin-bottom:6px;">${escHtml(p.investmentDesc || 'Investimento Total')}</div><div style="font-size:32px;font-weight:700;letter-spacing:-1px;">R$ ${escHtml(p.value)}</div>${p.installment ? `<div style="font-size:13px;color:rgba(255,255,255,0.4);margin-top:4px;">ou ${escHtml(p.installment)}</div>` : ''}</div>` : ''}
-  </div>
-</div>
-</body></html>`;
+  var prods = (p.products || []).filter(function(k) { return PRODUCT_DATA[k]; });
+  var timelines = p.timelines || {};
+  var items = prods.map(function(k) {
+    return '<li style="padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;justify-content:space-between;align-items:center;">' +
+      '<span style="font-size:14px;">&#x2713; ' + PRODUCT_DATA[k].num_label + '</span>' +
+      '<span style="font-size:11px;color:#00FFB2;font-family:monospace">' + escHtml(timelines[k]||'') + '</span></li>';
+  }).join('');
+  var price = p.value
+    ? '<div style="margin:2rem auto;max-width:500px;text-align:center;">' +
+      '<div style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem;">' + escHtml(p.investmentDesc||'Investimento Total') + '</div>' +
+      '<div style="font-size:48px;font-weight:800;letter-spacing:-2px;">R$ ' + escHtml(p.value) + '</div>' +
+      (p.installment ? '<div style="font-size:14px;color:rgba(255,255,255,0.4);margin-top:.5rem;">ou ' + escHtml(p.installment) + '</div>' : '') +
+      '</div>'
+    : '';
+  return '<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Proposta \u2014 ' + escHtml(p.client) + ' | Automatizze.ia</title></head>' +
+    '<body style="margin:0;font-family:sans-serif;background:#000;color:#fff;padding:3rem 1rem;text-align:center;">' +
+    '<h1 style="font-size:40px;font-weight:800;margin-bottom:.5rem;">' + escHtml(p.client) + '</h1>' +
+    '<p style="color:#00FFB2;font-size:11px;font-family:monospace;letter-spacing:2px;text-transform:uppercase;">automatizze.ia.br/' + p.slug + '</p>' +
+    '<ul style="list-style:none;margin:2rem auto;padding:1.5rem 2rem;max-width:500px;background:#0D0D11;border:1px solid rgba(255,255,255,0.08);border-radius:12px;text-align:left;">' + items + '</ul>' +
+    price +
+    '</body></html>';
 }
-
 function downloadProposal() {
-  const client = document.getElementById('f-client').value.trim();
-  const slug   = document.getElementById('f-slug').value.trim();
-  if (!client || !slug) { showToast('Preencha cliente e slug primeiro', 'error'); return; }
-  const p = { client, slug, value: document.getElementById('f-value').value.trim(), products: getSelectedProducts() };
+  var client = document.getElementById('f-client').value.trim();
+  var slug   = document.getElementById('f-slug').value.trim();
+  if (!client || !slug) { showToast('Preencha cliente e slug', 'error'); return; }
+  var p = { client: client, slug: slug, value: document.getElementById('f-value').value.trim(), installment: document.getElementById('f-installment').value.trim(), investmentDesc: document.getElementById('f-investment-desc').value.trim(), products: getSelectedProducts(), timelines: getTimelines() };
   triggerDownload(buildProposalHTML(p), slug + '.html');
 }
 function downloadProposalById(id) {
-  const p = proposals.find(x => x.id === id);
+  var p = proposals.find(function(x) { return x.id === id; });
   if (!p) return;
-  triggerDownload(buildProposalHTML(p), (p.slug || 'proposta') + '.html');
+  triggerDownload(buildProposalHTML(p), (p.slug||'proposta') + '.html');
 }
-function triggerDownload(html, filename) {
-  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+function exportProposalsJson() {
+  if (!proposals.length) { showToast('Nenhuma proposta para publicar.', 'error'); return; }
+  triggerDownload(JSON.stringify(proposals, null, 2), 'proposals.json');
+  showToast('\u2713 Commite proposals.json no GitHub para ativar as URLs!', 'success');
+}
+function triggerDownload(content, filename) {
+  const type = filename.endsWith('.json') ? 'application/json;charset=utf-8' : 'text/html;charset=utf-8';
+  const blob = new Blob([content], { type });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = filename;
