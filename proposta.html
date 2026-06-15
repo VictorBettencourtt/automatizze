@@ -1,0 +1,1669 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Proposta Comercial — Automatizze.ia para Sua Empresa</title>
+  <meta name="description" content="Proposta comercial personalizada Automatizze.ia — Solução completa de IA para transformar seu atendimento e vendas.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       AUTOMATIZZE.IA — Proposta Comercial Scrollytelling
+    ============================================================ */
+
+    :root {
+      --color-bg: #000000;
+      --color-bg-card: #0A0A0E;
+      --color-bg-section: #060608;
+      --color-border: rgba(255, 255, 255, 0.07);
+      --color-border-hover: rgba(255, 255, 255, 0.2);
+      --color-accent: #00FFB2;
+      --color-accent-dim: rgba(0, 255, 178, 0.15);
+      --color-accent-glow: rgba(0, 255, 178, 0.3);
+      --color-text-primary: #FFFFFF;
+      --color-text-secondary: rgba(255, 255, 255, 0.55);
+      --color-text-muted: rgba(255, 255, 255, 0.28);
+      --font-main: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      overflow-x: hidden;
+      cursor: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
+    img { max-width: 100%; display: block; }
+    button { cursor: none; font-family: var(--font-main); border: none; background: none; }
+
+    /* ---- CURSOR ---- */
+    .cursor {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 99999;
+      pointer-events: none;
+      mix-blend-mode: difference;
+    }
+    .cursor .inner {
+      position: absolute;
+      top: -24px; left: -24px;
+      width: 48px; height: 48px;
+    }
+    .cursor .circle {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.8);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .cursor-dot {
+      position: fixed;
+      top: -3px; left: -3px;
+      width: 6px; height: 6px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      z-index: 100000;
+      pointer-events: none;
+    }
+    .cursor.is-hover .circle {
+      transform: scale(2.5);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* ---- LOADING SCREEN ---- */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: var(--color-bg);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: opacity 0.7s ease;
+    }
+    #loading.fade-out { opacity: 0; pointer-events: none; }
+    .loading-logo {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    .loading-logo .dot { color: var(--color-accent); }
+    .loading-bar-wrap {
+      width: 200px;
+      height: 1px;
+      background: var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+    .loading-bar {
+      position: absolute;
+      left: -100%;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background: var(--color-accent);
+      animation: loadBar 1.2s var(--ease-smooth) forwards;
+    }
+    @keyframes loadBar { to { left: 0; } }
+    .loading-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    /* ---- SCROLL PROGRESS ---- */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--color-accent), rgba(0,255,178,0.3));
+      z-index: 10000;
+      transition: width 0.1s linear;
+    }
+
+    /* ---- HEADER ---- */
+    #head {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 0 5rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    #head.scrolled {
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .head-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .logo-link {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--color-text-primary);
+      transition: color 0.3s ease;
+    }
+    .logo-link:hover { color: var(--color-accent); }
+    .logo-link .dot { color: var(--color-accent); }
+    .head-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-text-muted);
+    }
+    .head-badge .pulse {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      animation: pulseDot 2s ease infinite;
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .head-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 10px 22px;
+      background: var(--color-accent);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .head-cta:hover {
+      background: #fff;
+      transform: translateY(-1px);
+    }
+
+    /* ---- HERO SECTION ---- */
+    .hero-section {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .hero-bg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 20%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 2rem;
+      max-width: 900px;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--color-accent-dim);
+      border: 1px solid rgba(0,255,178,0.25);
+      padding: 8px 18px;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 1.3s forwards;
+    }
+    .hero-tag .line { width: 20px; height: 1px; background: var(--color-accent); }
+    .hero-h1 {
+      font-size: clamp(42px, 7vw, 88px);
+      font-weight: 700;
+      letter-spacing: -3px;
+      line-height: 1.0;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+    .hero-h1 .word {
+      display: inline-block;
+      transform: translateY(100%);
+      animation: slideUp 0.9s var(--ease-smooth) forwards;
+      margin-right: 0.15em;
+    }
+    .hero-h1 .word:nth-child(1) { animation-delay: 1.4s; }
+    .hero-h1 .word:nth-child(2) { animation-delay: 1.5s; }
+    .hero-h1 .word:nth-child(3) { animation-delay: 1.6s; color: var(--color-accent); }
+    .hero-h1 .word:nth-child(4) { animation-delay: 1.7s; }
+    .hero-h1 .word:nth-child(5) { animation-delay: 1.8s; }
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 19px);
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 2s forwards;
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 2.2s forwards;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .hero-meta-item .val {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--color-text-primary);
+    }
+    .hero-meta-item .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-text-muted);
+    }
+    .hero-meta-div {
+      width: 1px;
+      height: 40px;
+      background: var(--color-border);
+    }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease 2.5s forwards;
+    }
+    .hero-scroll .line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--color-accent), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+    .hero-scroll .text {
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.3); }
+    }
+    @keyframes slideUp {
+      to { transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* ---- INTRO SECTION ---- */
+    .intro-section {
+      padding: 120px 5rem;
+      border-top: 1px solid var(--color-border);
+    }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .intro-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      padding-top: 6px;
+    }
+    .intro-h2 {
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 600;
+      letter-spacing: -2px;
+      line-height: 1.15;
+      margin-bottom: 2rem;
+    }
+    .intro-h2 span { color: var(--color-text-secondary); }
+    .intro-p {
+      font-size: 17px;
+      color: var(--color-text-secondary);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    /* ---- REVEAL ANIMATION ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s var(--ease-smooth), transform 0.8s var(--ease-smooth);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ---- DELIVERIES SCROLLYTELLING ---- */
+    .deliveries-section {
+      position: relative;
+    }
+    .deliveries-sticky-wrapper {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Left: visual panel */
+    .delivery-visual-panel {
+      position: relative;
+      background: var(--color-bg-card);
+      border-right: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+    .delivery-visual {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      opacity: 0;
+      transform: scale(0.96);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .delivery-visual.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .delivery-visual-icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+    .delivery-visual-icon::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: 50%;
+      padding: 1px;
+      background: linear-gradient(135deg, var(--color-accent), transparent 60%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    .delivery-visual-icon svg {
+      width: 48px;
+      height: 48px;
+      color: var(--color-accent);
+    }
+    .delivery-visual-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .delivery-visual-desc {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      text-align: center;
+      line-height: 1.7;
+      max-width: 300px;
+    }
+    .delivery-visual-tag {
+      margin-top: 2rem;
+      padding: 6px 16px;
+      background: var(--color-accent-dim);
+      border: 1px solid rgba(0,255,178,0.2);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    /* Floating orb bg for visual panel */
+    .delivery-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      opacity: 0.12;
+      transition: all 0.8s ease;
+    }
+    .delivery-orb-1 {
+      width: 300px; height: 300px;
+      top: -50px; left: -100px;
+      background: var(--color-accent);
+    }
+    .delivery-orb-2 {
+      width: 200px; height: 200px;
+      bottom: -30px; right: -60px;
+      background: rgba(0,100,80,1);
+    }
+
+    /* Right: text scroll area */
+    .delivery-text-panel {
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .delivery-text-track {
+      position: absolute;
+      inset: 0;
+    }
+    .delivery-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem;
+      opacity: 0;
+      transform: translateX(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      pointer-events: none;
+    }
+    .delivery-text.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+    .delivery-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--color-accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+    .delivery-h3 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+    .delivery-desc {
+      font-size: 15px;
+      color: var(--color-text-secondary);
+      line-height: 1.85;
+      margin-bottom: 2.5rem;
+      max-width: 460px;
+    }
+    .delivery-features {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .delivery-feature {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 14px;
+      color: var(--color-text-secondary);
+    }
+    .delivery-feature::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      flex-shrink: 0;
+    }
+
+    /* Progress dots */
+    .delivery-dots {
+      position: absolute;
+      right: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 10;
+    }
+    .delivery-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-border);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .delivery-dot.active {
+      background: var(--color-accent);
+      transform: scale(1.4);
+    }
+
+    /* Scroll spacer for deliveries */
+    .deliveries-scroll-space {
+      /* Each delivery gets 100vh of scroll space */
+    }
+
+    /* Section counter (left panel) */
+    .delivery-counter {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--color-text-muted);
+      z-index: 10;
+    }
+    .delivery-progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: var(--color-accent);
+      transition: width 0.4s ease;
+    }
+
+    /* ---- INVESTMENT SECTION ---- */
+    .investment-section {
+      padding: 140px 5rem;
+      border-top: 1px solid var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+    .investment-bg-orb {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,178,0.06) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .investment-header {
+      text-align: center;
+      margin-bottom: 6rem;
+    }
+    .investment-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-accent);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .investment-h2 {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      letter-spacing: -2.5px;
+      line-height: 1.05;
+    }
+    .investment-h2 span { color: var(--color-text-secondary); }
+
+    /* Price card */
+    .price-card {
+      max-width: 680px;
+      margin: 0 auto 4rem;
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      padding: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .price-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+    }
+    .price-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .price-card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-text-muted);
+    }
+    .price-card-badge {
+      padding: 5px 14px;
+      background: var(--color-accent-dim);
+      border: 1px solid rgba(0,255,178,0.2);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .price-main {
+      margin-bottom: 2rem;
+    }
+    .price-sub {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.75rem;
+    }
+    .price-value {
+      font-size: clamp(52px, 8vw, 88px);
+      font-weight: 700;
+      letter-spacing: -4px;
+      line-height: 1;
+      color: var(--color-text-primary);
+    }
+    .price-value .currency {
+      font-size: 0.35em;
+      font-weight: 400;
+      letter-spacing: -1px;
+      vertical-align: top;
+      margin-top: 0.3em;
+      color: var(--color-text-secondary);
+    }
+    .price-value .cents {
+      font-size: 0.3em;
+      letter-spacing: 0;
+      color: var(--color-text-secondary);
+    }
+    .price-installment {
+      font-size: 15px;
+      color: var(--color-text-secondary);
+      margin-top: 1rem;
+    }
+    .price-installment strong {
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+    .price-items {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--color-border);
+    }
+    .price-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      padding: 0.5rem 0;
+    }
+    .price-item:not(:last-child) {
+      border-bottom: 1px solid var(--color-border);
+    }
+    .price-item .item-name {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .price-item .item-name::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      flex-shrink: 0;
+    }
+    .price-item .item-val {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    /* ---- TIMELINE ---- */
+    .timeline-section {
+      padding: 120px 5rem;
+      border-top: 1px solid var(--color-border);
+    }
+    .timeline-header {
+      max-width: 600px;
+      margin-bottom: 5rem;
+    }
+    .section-tag {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--color-text-muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    .timeline-h2 {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      line-height: 1.15;
+    }
+    .timeline-h2 span { color: var(--color-text-secondary); }
+    .timeline {
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--color-accent), var(--color-border) 80%);
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0 2.5rem 3rem;
+      position: relative;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 2.9rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      box-shadow: 0 0 12px var(--color-accent-glow);
+    }
+    .timeline-period {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-accent);
+      letter-spacing: 1px;
+      padding-top: 4px;
+    }
+    .timeline-content {}
+    .timeline-phase {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.75rem;
+    }
+    .timeline-desc {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ---- CTA SECTION ---- */
+    .cta-section {
+      padding: 140px 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-top: 1px solid var(--color-border);
+    }
+    .cta-bg-glow {
+      position: absolute;
+      width: 800px; height: 400px;
+      background: radial-gradient(ellipse, rgba(0,255,178,0.07) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .cta-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--color-accent);
+      margin-bottom: 2rem;
+    }
+    .cta-h2 {
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 700;
+      letter-spacing: -3px;
+      line-height: 1.0;
+      margin-bottom: 1.5rem;
+    }
+    .cta-h2 span { color: var(--color-text-secondary); }
+    .cta-sub {
+      font-size: 17px;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto 3.5rem;
+    }
+    .cta-buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 18px 36px;
+      background: var(--color-accent);
+      color: #000;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.2);
+      transform: translateX(-100%);
+      transition: transform 0.4s ease;
+    }
+    .btn-primary:hover::before { transform: translateX(0); }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(0,255,178,0.3);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 18px 36px;
+      border: 1px solid var(--color-border-hover);
+      color: var(--color-text-primary);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+    }
+    .btn-secondary:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+    .cta-guarantee {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+    .cta-guarantee .check {
+      color: var(--color-accent);
+      font-size: 14px;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 3rem 5rem;
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    footer .footer-logo {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    footer .footer-logo .dot { color: var(--color-accent); }
+    footer .footer-copy {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    /* ---- MOBILE ---- */
+    @media (max-width: 900px) {
+      #head { padding: 0 1.5rem; }
+      .head-badge { display: none; }
+      .hero-h1 { letter-spacing: -2px; }
+      .hero-meta { gap: 1.5rem; }
+      .intro-section { padding: 80px 1.5rem; }
+      .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .deliveries-sticky-wrapper { grid-template-columns: 1fr; }
+      .delivery-visual-panel { display: none; }
+      .delivery-text { padding: 2rem 1.5rem; position: relative; inset: auto; opacity: 1; transform: none; }
+      .delivery-text.active { opacity: 1; transform: none; }
+      .deliveries-section { position: static; }
+      .deliveries-sticky-wrapper { position: static; height: auto; display: block; }
+      .delivery-text-panel { display: block; position: static; overflow: visible; }
+      .delivery-text-track { position: static; }
+      .investment-section { padding: 80px 1.5rem; }
+      .price-card { padding: 2rem 1.5rem; }
+      .price-value { font-size: 56px; }
+      .timeline-section { padding: 80px 1.5rem; }
+      .timeline-item { grid-template-columns: 1fr; gap: 0.5rem; }
+      .cta-section { padding: 80px 1.5rem; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor">
+    <div class="inner">
+      <div class="circle"></div>
+    </div>
+  </div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+
+  <!-- Scroll Progress -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- Loading -->
+  <div id="loading">
+    <div class="loading-logo">Automatizze<span class="dot">.</span>ia</div>
+    <div class="loading-bar-wrap">
+      <div class="loading-bar"></div>
+    </div>
+    <div class="loading-label">Carregando sua proposta</div>
+  </div>
+
+  <!-- Header -->
+  <header id="head">
+    <div class="head-wrap">
+      <a href="index.html" class="logo-link">Automatizze<span class="dot">.</span>ia</a>
+      <div class="head-badge">
+        <div class="pulse"></div>
+        Proposta Personalizada
+      </div>
+      <a href="https://wa.me/5500000000000?text=Ol%C3%A1!%20Vi%20a%20proposta%20comercial%20e%20quero%20fechar%20negócio."
+         target="_blank"
+         class="head-cta"
+         id="head-cta">
+        Fechar Negócio ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="hero-section" id="hero">
+    <canvas class="hero-bg-canvas" id="hero-canvas"></canvas>
+    <div class="hero-vignette"></div>
+
+    <div class="hero-content">
+      <div class="hero-tag">
+        <span class="line"></span>
+        Proposta Exclusiva · Sua Empresa
+        <span class="line"></span>
+      </div>
+
+      <h1 class="hero-h1">
+        <span class="word">Sua</span>
+        <span class="word">empresa</span>
+        <span class="word">automatizada</span>
+        <span class="word">e</span>
+        <span class="word">lucrativa.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Desenvolvemos uma solução completa de IA para transformar radicalmente
+        o atendimento, as vendas e a recuperação de clientes do seu negócio.
+      </p>
+
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="val">5</span>
+          <span class="label">Entregas</span>
+        </div>
+        <div class="hero-meta-div"></div>
+        <div class="hero-meta-item">
+          <span class="val">30</span>
+          <span class="label">Dias de Implementação</span>
+        </div>
+        <div class="hero-meta-div"></div>
+        <div class="hero-meta-item">
+          <span class="val">∞</span>
+          <span class="label">ROI Potencial</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="line"></div>
+      <span class="text">Role para descobrir</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       INTRO SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="intro-section">
+    <div class="intro-grid">
+      <div class="reveal">
+        <p class="intro-label">O Diagnóstico</p>
+      </div>
+      <div class="reveal reveal-delay-2">
+        <h2 class="intro-h2">
+          Seu negócio está perdendo dinheiro<br>
+          <span>por falta de automação inteligente.</span>
+        </h2>
+        <p class="intro-p">
+          Atendimentos manuais lentos, carrinhos abandonados sem follow-up, leads que não são convertidos
+          e um time sobrecarregado fazendo tarefas repetitivas. Preparamos 5 soluções de IA integradas
+          que vão mudar completamente essa realidade — do atendimento ao fechamento de vendas.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       DELIVERIES SCROLLYTELLING
+  ═══════════════════════════════════════════ -->
+  <section class="deliveries-section" id="deliveries">
+
+    <!-- The sticky layout: left visual + right text -->
+    <div class="deliveries-sticky-wrapper" id="deliveries-sticky">
+
+      <!-- LEFT: Visual Panel -->
+      <div class="delivery-visual-panel">
+        <div class="delivery-orb delivery-orb-1"></div>
+        <div class="delivery-orb delivery-orb-2"></div>
+
+        <!-- Delivery 1: WhatsApp Agent -->
+        <div class="delivery-visual active" data-visual="0">
+          <div class="delivery-visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+            </svg>
+          </div>
+          <div class="delivery-visual-title">Agente IA<br>WhatsApp</div>
+          <div class="delivery-visual-desc">Responde, qualifica e converte leads 24h por dia automaticamente</div>
+          <div class="delivery-visual-tag">Entrega 01</div>
+        </div>
+
+        <!-- Delivery 2: Chatwoot -->
+        <div class="delivery-visual" data-visual="1">
+          <div class="delivery-visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <div class="delivery-visual-title">Plataforma<br>Chatwoot</div>
+          <div class="delivery-visual-desc">Central de conversas com IA para todo o seu time de atendimento</div>
+          <div class="delivery-visual-tag">Entrega 02</div>
+        </div>
+
+        <!-- Delivery 3: Voice AI -->
+        <div class="delivery-visual" data-visual="2">
+          <div class="delivery-visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+              <path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/>
+            </svg>
+          </div>
+          <div class="delivery-visual-title">Agente IA<br>de Ligação</div>
+          <div class="delivery-visual-desc">Ligações automáticas com voz de IA natural usando Vapi</div>
+          <div class="delivery-visual-tag">Entrega 03</div>
+        </div>
+
+        <!-- Delivery 4: E-commerce -->
+        <div class="delivery-visual" data-visual="3">
+          <div class="delivery-visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/>
+            </svg>
+          </div>
+          <div class="delivery-visual-title">Site<br>E-commerce</div>
+          <div class="delivery-visual-desc">Loja online completa, otimizada para conversão e vendas</div>
+          <div class="delivery-visual-tag">Entrega 04</div>
+        </div>
+
+        <!-- Delivery 5: Cart Recovery -->
+        <div class="delivery-visual" data-visual="4">
+          <div class="delivery-visual-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+              <polyline points="17 6 23 6 23 12"/>
+            </svg>
+          </div>
+          <div class="delivery-visual-title">Recuperação<br>de Carrinho</div>
+          <div class="delivery-visual-desc">Recupera vendas perdidas por ligação IA e WhatsApp automático</div>
+          <div class="delivery-visual-tag">Entrega 05</div>
+        </div>
+
+        <!-- Counter & Progress -->
+        <div class="delivery-counter" id="delivery-counter">01 / 05</div>
+        <div class="delivery-progress-bar" id="delivery-progress-bar"></div>
+      </div>
+
+      <!-- RIGHT: Text Panel -->
+      <div class="delivery-text-panel">
+        <div class="delivery-text-track">
+
+          <!-- Text 1 -->
+          <div class="delivery-text active" data-text="0">
+            <div class="delivery-num">Entrega 01 / 05</div>
+            <h3 class="delivery-h3">Agente de IA<br>no WhatsApp</h3>
+            <p class="delivery-desc">
+              Um agente inteligente treinado com o DNA do seu negócio — ele atende, responde dúvidas,
+              qualifica leads, agenda reuniões e encaminha para o time humano apenas quando necessário.
+              Disponível 24 horas, 7 dias por semana.
+            </p>
+            <ul class="delivery-features">
+              <li class="delivery-feature">Respostas instantâneas em linguagem natural</li>
+              <li class="delivery-feature">Qualificação automática de leads por fluxo</li>
+              <li class="delivery-feature">Integração com seu CRM e agenda</li>
+              <li class="delivery-feature">Relatórios de conversas e métricas</li>
+              <li class="delivery-feature">Treinamento completo com dados do seu negócio</li>
+            </ul>
+          </div>
+
+          <!-- Text 2 -->
+          <div class="delivery-text" data-text="1">
+            <div class="delivery-num">Entrega 02 / 05</div>
+            <h3 class="delivery-h3">Plataforma Chatwoot<br>+ Treinamento</h3>
+            <p class="delivery-desc">
+              Instalação e configuração completa do Chatwoot — a plataforma open source de gerenciamento
+              de conversas. Seu time terá uma central unificada para WhatsApp, e-mail e outros canais,
+              com treinamento hands-on incluso.
+            </p>
+            <ul class="delivery-features">
+              <li class="delivery-feature">Instalação e configuração no seu servidor</li>
+              <li class="delivery-feature">Integração com WhatsApp Business API</li>
+              <li class="delivery-feature">Criação de caixas de entrada por setor</li>
+              <li class="delivery-feature">Treinamento completo para o time (online)</li>
+              <li class="delivery-feature">Documentação e suporte pós-entrega</li>
+            </ul>
+          </div>
+
+          <!-- Text 3 -->
+          <div class="delivery-text" data-text="2">
+            <div class="delivery-num">Entrega 03 / 05</div>
+            <h3 class="delivery-h3">Agente IA<br>de Ligação (Vapi)</h3>
+            <p class="delivery-desc">
+              Ligações telefônicas automatizadas com voz de IA ultra-realista usando a plataforma Vapi.
+              O agente liga para leads, faz follow-ups e recupera oportunidades perdidas com uma voz
+              natural que o cliente nem percebe que é IA.
+            </p>
+            <ul class="delivery-features">
+              <li class="delivery-feature">Voz de IA personalizada para sua marca</li>
+              <li class="delivery-feature">Fluxo de conversa por ligação configurado</li>
+              <li class="delivery-feature">Integração com lista de leads e CRM</li>
+              <li class="delivery-feature">Transcrição e análise de chamadas</li>
+              <li class="delivery-feature">Dashboard de performance em tempo real</li>
+            </ul>
+          </div>
+
+          <!-- Text 4 -->
+          <div class="delivery-text" data-text="3">
+            <div class="delivery-num">Entrega 04 / 05</div>
+            <h3 class="delivery-h3">Desenvolvimento<br>do Site E-commerce</h3>
+            <p class="delivery-desc">
+              Desenvolvimento completo da sua loja online — design premium, experiência de compra
+              fluida, otimizada para conversão e para motores de busca. Uma vitrine digital que
+              vende por você enquanto você dorme.
+            </p>
+            <ul class="delivery-features">
+              <li class="delivery-feature">Design exclusivo e responsivo (mobile first)</li>
+              <li class="delivery-feature">Catálogo de produtos e gestão de estoque</li>
+              <li class="delivery-feature">Gateway de pagamento integrado (Pix, cartão)</li>
+              <li class="delivery-feature">SEO técnico e velocidade otimizados</li>
+              <li class="delivery-feature">Painel admin para você gerenciar sozinho</li>
+            </ul>
+          </div>
+
+          <!-- Text 5 -->
+          <div class="delivery-text" data-text="4">
+            <div class="delivery-num">Entrega 05 / 05</div>
+            <h3 class="delivery-h3">Recuperação de<br>Carrinho com IA</h3>
+            <p class="delivery-desc">
+              Integração inteligente entre o e-commerce e os agentes de IA — quando um cliente abandona
+              o carrinho, o sistema dispara automaticamente uma ligação e/ou mensagem de WhatsApp
+              personalizada para recuperar a venda.
+            </p>
+            <ul class="delivery-features">
+              <li class="delivery-feature">Gatilho automático de abandono de carrinho</li>
+              <li class="delivery-feature">Ligação de IA com oferta personalizada</li>
+              <li class="delivery-feature">Mensagem WhatsApp com link direto ao carrinho</li>
+              <li class="delivery-feature">Sequência de follow-ups programados</li>
+              <li class="delivery-feature">Relatório de vendas recuperadas</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Navigation dots -->
+        <div class="delivery-dots" id="delivery-dots">
+          <div class="delivery-dot active" data-goto="0"></div>
+          <div class="delivery-dot" data-goto="1"></div>
+          <div class="delivery-dot" data-goto="2"></div>
+          <div class="delivery-dot" data-goto="3"></div>
+          <div class="delivery-dot" data-goto="4"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Scroll spacer: 5 deliveries × 100vh each -->
+    <div style="height: 500vh;" id="deliveries-space"></div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       INVESTMENT SECTION
+  ═══════════════════════════════════════════ -->
+  <section class="investment-section" id="investment">
+    <div class="investment-bg-orb"></div>
+
+    <div class="investment-header reveal">
+      <span class="investment-tag">O Investimento</span>
+      <h2 class="investment-h2">
+        Transformação completa.<br>
+        <span>Um único investimento.</span>
+      </h2>
+    </div>
+
+    <div class="price-card reveal reveal-delay-2">
+      <div class="price-card-header">
+        <div class="price-card-label">Pacote Completo — 5 Soluções</div>
+        <div class="price-card-badge">Proposta Exclusiva</div>
+      </div>
+
+      <div class="price-main">
+        <div class="price-sub">Valor Total</div>
+        <div class="price-value">
+          <span class="currency">R$</span>
+          XX.XXX
+        </div>
+        <div class="price-installment">
+          ou em <strong>12x de R$ X.XXX</strong> sem juros no cartão
+        </div>
+      </div>
+
+      <ul class="price-items">
+        <li class="price-item">
+          <span class="item-name">Agente IA WhatsApp</span>
+          <span class="item-val">INCLUSO</span>
+        </li>
+        <li class="price-item">
+          <span class="item-name">Chatwoot + Treinamento</span>
+          <span class="item-val">INCLUSO</span>
+        </li>
+        <li class="price-item">
+          <span class="item-name">Agente IA de Ligação (Vapi)</span>
+          <span class="item-val">INCLUSO</span>
+        </li>
+        <li class="price-item">
+          <span class="item-name">Site E-commerce Completo</span>
+          <span class="item-val">INCLUSO</span>
+        </li>
+        <li class="price-item">
+          <span class="item-name">Recuperação de Carrinho IA</span>
+          <span class="item-val">INCLUSO</span>
+        </li>
+        <li class="price-item">
+          <span class="item-name">Suporte 30 dias pós-entrega</span>
+          <span class="item-val">INCLUSO</span>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       TIMELINE
+  ═══════════════════════════════════════════ -->
+  <section class="timeline-section" id="cronograma">
+    <div class="timeline-header reveal">
+      <span class="section-tag">Cronograma de Entrega</span>
+      <h2 class="timeline-h2">30 dias para<br><span>sua empresa transformada.</span></h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-period">Semana 1</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 01 — Fundação</div>
+          <div class="timeline-title">Agente IA WhatsApp + Chatwoot</div>
+          <div class="timeline-desc">Configuração da plataforma Chatwoot, integração com WhatsApp Business API e desenvolvimento e treinamento completo do agente de atendimento. Treinamento do time incluso.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-1">
+        <div class="timeline-period">Semana 2</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 02 — Ligações IA</div>
+          <div class="timeline-title">Agente IA de Ligação (Vapi)</div>
+          <div class="timeline-desc">Desenvolvimento e configuração do agente de voz, criação dos fluxos de ligação, personalização da voz e integração com a lista de leads e CRM.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-2">
+        <div class="timeline-period">Semanas 3–4</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 03 — E-commerce</div>
+          <div class="timeline-title">Site E-commerce + Recuperação de Carrinho</div>
+          <div class="timeline-desc">Desenvolvimento completo da loja online, integração de pagamentos, catálogo de produtos e implementação do sistema de recuperação de carrinho automatizado com IA.</div>
+        </div>
+      </div>
+
+      <div class="timeline-item reveal reveal-delay-3">
+        <div class="timeline-period">Pós-entrega</div>
+        <div class="timeline-content">
+          <div class="timeline-phase">Fase 04 — Acompanhamento</div>
+          <div class="timeline-title">Suporte e Otimização (30 dias)</div>
+          <div class="timeline-desc">30 dias de suporte dedicado para ajustes, otimizações, treinamentos adicionais e garantia de que todas as soluções estão performando no máximo potencial.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       CTA FINAL
+  ═══════════════════════════════════════════ -->
+  <section class="cta-section" id="fechar">
+    <div class="cta-bg-glow"></div>
+
+    <div class="reveal">
+      <p class="cta-eyebrow">Pronto para começar?</p>
+      <h2 class="cta-h2">
+        Vamos transformar<br>
+        <span>seu negócio juntos.</span>
+      </h2>
+      <p class="cta-sub">
+        Clique abaixo para falar diretamente com Victor e confirmar sua proposta.
+        A implementação começa assim que o contrato for assinado.
+      </p>
+
+      <div class="cta-buttons">
+        <a href="https://wa.me/5500000000000?text=Ol%C3%A1%20Victor!%20Vi%20a%20proposta%20e%20quero%20fechar%20negócio.%20Pode%20me%20ajudar%3F"
+           target="_blank"
+           class="btn-primary"
+           id="cta-whatsapp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Fechar pelo WhatsApp
+        </a>
+        <a href="mailto:comercial@automatizze.ia?subject=Proposta Comercial — Sua Empresa&body=Olá Victor, vi a proposta e tenho interesse em fechar."
+           class="btn-secondary">
+          ✉ Enviar por E-mail
+        </a>
+      </div>
+
+      <div class="cta-guarantee">
+        <span class="check">✓</span>
+        Proposta válida por 15 dias ·
+        <span class="check" style="margin-left:0.5rem">✓</span>
+        Contrato sem burocracia ·
+        <span class="check" style="margin-left:0.5rem">✓</span>
+        Início imediato
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Automatizze<span class="dot">.</span>ia</div>
+    <div class="footer-copy">© <span class="year"></span> Automatizze.ia — Todos os direitos reservados</div>
+  </footer>
+
+  <script>
+    'use strict';
+
+    /* ---- CURSOR ---- */
+    (function() {
+      const cursor = document.getElementById('cursor');
+      const dot = document.getElementById('cursor-dot');
+      if (!cursor || !dot) return;
+      let mx = -200, my = -200, cx = -200, cy = -200;
+
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.transform = `translate3d(${mx}px,${my}px,0)`;
+      });
+
+      function animate() {
+        cx += (mx - cx) * 0.12;
+        cy += (my - cy) * 0.12;
+        cursor.querySelector('.inner').style.transform = `translate3d(${cx}px,${cy}px,0)`;
+        requestAnimationFrame(animate);
+      }
+      animate();
+
+      document.querySelectorAll('a, button, .delivery-dot').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+      });
+    })();
+
+    /* ---- LOADING ---- */
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loading').classList.add('fade-out');
+        setTimeout(() => document.getElementById('loading').style.display = 'none', 700);
+      }, 1400);
+    });
+
+    /* ---- HEADER SCROLL ---- */
+    const head = document.getElementById('head');
+    window.addEventListener('scroll', () => {
+      head.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ---- SCROLL PROGRESS ---- */
+    const progressBar = document.getElementById('scroll-progress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (window.scrollY / max * 100) + '%';
+    }, { passive: true });
+
+    /* ---- REVEAL ON SCROLL ---- */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    /* ---- HERO CANVAS (animated gradient orbs) ---- */
+    (function() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, t = 0;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function draw() {
+        t += 0.004;
+        ctx.clearRect(0, 0, w, h);
+        const orbs = [
+          { x: w*0.25 + Math.sin(t*0.7)*w*0.08, y: h*0.3 + Math.cos(t*0.5)*h*0.08, r: w*0.35, c: 'rgba(0,255,178,0.045)' },
+          { x: w*0.75 + Math.cos(t*0.4)*w*0.07, y: h*0.6 + Math.sin(t*0.6)*h*0.07, r: w*0.28, c: 'rgba(0,120,90,0.035)' },
+          { x: w*0.5 + Math.sin(t*0.3)*w*0.05,  y: h*0.8,                           r: w*0.2,  c: 'rgba(0,200,130,0.03)' },
+        ];
+        orbs.forEach(o => {
+          const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+          g.addColorStop(0, o.c);
+          g.addColorStop(1, 'transparent');
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, w, h);
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    /* ---- DELIVERIES SCROLLYTELLING ---- */
+    (function() {
+      const section = document.getElementById('deliveries');
+      const space   = document.getElementById('deliveries-space');
+      const sticky  = document.getElementById('deliveries-sticky');
+      if (!section || !space || !sticky) return;
+
+      const visuals  = document.querySelectorAll('.delivery-visual');
+      const texts    = document.querySelectorAll('.delivery-text');
+      const dots     = document.querySelectorAll('.delivery-dot');
+      const counter  = document.getElementById('delivery-counter');
+      const progBar  = document.getElementById('delivery-progress-bar');
+
+      const total = visuals.length; // 5
+      let current = -1;
+
+      function setDelivery(idx) {
+        if (idx === current || idx < 0 || idx >= total) return;
+        current = idx;
+
+        visuals.forEach((v, i) => v.classList.toggle('active', i === idx));
+        texts.forEach((t, i)   => t.classList.toggle('active', i === idx));
+        dots.forEach((d, i)    => d.classList.toggle('active', i === idx));
+
+        if (counter) counter.textContent = String(idx + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+        if (progBar) progBar.style.width = ((idx + 1) / total * 100) + '%';
+      }
+
+      window.addEventListener('scroll', () => {
+        const spaceRect = space.getBoundingClientRect();
+        const stickyRect = sticky.getBoundingClientRect();
+
+        // Are we in the sticky zone?
+        if (stickyRect.top > 0 || spaceRect.bottom < window.innerHeight) {
+          // before or after
+          if (stickyRect.top > 0) setDelivery(0);
+          if (spaceRect.bottom < window.innerHeight) setDelivery(total - 1);
+          return;
+        }
+
+        // Scroll progress within space
+        const scrolledIntoSpace = -spaceRect.top;
+        const totalScroll = space.offsetHeight - window.innerHeight;
+        const progress = Math.max(0, Math.min(1, scrolledIntoSpace / totalScroll));
+        const idx = Math.min(total - 1, Math.floor(progress * total));
+        setDelivery(idx);
+      }, { passive: true });
+
+      // Init
+      setDelivery(0);
+
+      // Dot navigation — scroll to corresponding delivery
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.dataset.goto);
+          const spaceTop = space.getBoundingClientRect().top + window.scrollY;
+          const scrollTarget = spaceTop + (idx / total) * (space.offsetHeight - window.innerHeight);
+          window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
+        });
+      });
+    })();
+
+    /* ---- YEAR ---- */
+    document.querySelectorAll('.year').forEach(el => el.textContent = new Date().getFullYear());
+
+    /* ---- MOBILE: stack deliveries ---- */
+    (function() {
+      if (window.innerWidth > 900) return;
+      // On mobile, make all texts visible
+      document.querySelectorAll('.delivery-text').forEach(t => {
+        t.style.position = 'relative';
+        t.style.opacity  = '1';
+        t.style.transform = 'none';
+        t.style.inset    = 'auto';
+      });
+    })();
+  </script>
+
+</body>
+</html>
