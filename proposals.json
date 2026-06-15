@@ -1,1 +1,54 @@
-[]
+[
+  {
+    "id": "1781564908836",
+    "client": "Integracaps",
+    "slug": "integracaps",
+    "value": "35.000",
+    "valueNum": 35000,
+    "installment": "10x3.500",
+    "investmentDesc": "",
+    "status": "open",
+    "products": [
+      "whatsapp",
+      "voice",
+      "site",
+      "crm"
+    ],
+    "timelines": {
+      "whatsapp": "21 dias uteis",
+      "voice": "14 dias uteis",
+      "site": "21 dias uteis",
+      "crm": "2 dias uteis"
+    },
+    "notes": "",
+    "createdAt": "2026-06-15T23:08:28.836Z",
+    "updatedAt": "2026-06-15T23:08:28.836Z"
+  },
+  {
+    "id": "1781562504311",
+    "client": "Suplementos",
+    "slug": "suplementos",
+    "value": "15.000",
+    "valueNum": 15000,
+    "installment": "10x  1.500",
+    "investmentDesc": "",
+    "status": "open",
+    "products": [
+      "whatsapp",
+      "voice",
+      "site",
+      "crm",
+      "email"
+    ],
+    "timelines": {
+      "whatsapp": "7 dias uteis",
+      "voice": "7 dias uteis",
+      "site": "21 dias uteis",
+      "crm": "5 dias uteis",
+      "email": "10 dias uteis"
+    },
+    "notes": "",
+    "createdAt": "2026-06-15T22:28:24.311Z",
+    "updatedAt": "2026-06-15T22:28:24.311Z"
+  }
+]
