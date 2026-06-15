@@ -1152,113 +1152,193 @@
     }
   </style>
 
-  <!-- ═══ DYNAMIC PROPOSAL LOADER ═══
-       Reads slug from URL, fetches proposals.json, patches the page.
-       Falls back gracefully if no match found.
-  ═══════════════════════════════════ -->
+  <!-- DYNAMIC PROPOSAL LOADER
+       Reads slug from URL, fetches proposals.json, patches ALL dynamic content.
+  -->
   <script>
   (function() {
-    /* Product display data — mirrors painel.html PRODUCT_DATA */
+
+    /* Per-product metadata for timeline generation */
     var PROD = {
-      whatsapp: { label: 'WhatsApp IA',    tag: 'Agente de IA no WhatsApp' },
-      voice:    { label: 'IA de Ligacao',  tag: 'Agente IA de Ligacao (Vapi)' },
-      site:     { label: 'Site Premium',   tag: 'Desenvolvimento do Site' },
-      crm:      { label: 'CRM Chatwoot',   tag: 'Instalacao de CRM (Chatwoot)' },
-      email:    { label: 'E-mail Mkt',     tag: 'Disparos de E-mail Marketing' },
+      whatsapp: {
+        label: 'WhatsApp IA',
+        tag:   'Agente de IA no WhatsApp',
+        title: 'Agente IA no WhatsApp',
+        phase: 'Atendimento Automatizado',
+        desc:  'Configuracao do agente inteligente treinado com o DNA do negocio — atende, responde duvidas, qualifica leads e agenda reunioes 24h por dia. Treinamento completo da equipe incluso.',
+        defaultDays: 7
+      },
+      voice: {
+        label: 'IA de Ligacao',
+        tag:   'Agente IA de Ligacao (Vapi)',
+        title: 'Agente IA de Ligacao (Vapi)',
+        phase: 'Ligacoes Automatizadas',
+        desc:  'Desenvolvimento e configuracao do agente de voz ultra-realista, criacao dos fluxos de ligacao, personalizacao da voz e integracao com a lista de leads e CRM.',
+        defaultDays: 7
+      },
+      site: {
+        label: 'Site Premium',
+        tag:   'Desenvolvimento do Site',
+        title: 'Site / E-commerce Premium',
+        phase: 'Presenca Digital',
+        desc:  'Desenvolvimento completo do site ou loja online com design exclusivo, integracao de pagamentos (Pix, cartao), catalogo de produtos e painel administrativo.',
+        defaultDays: 21
+      },
+      crm: {
+        label: 'CRM Chatwoot',
+        tag:   'Instalacao de CRM (Chatwoot)',
+        title: 'CRM Chatwoot + Integracao',
+        phase: 'Central de Atendimento',
+        desc:  'Configuracao da plataforma Chatwoot, integracao com WhatsApp Business API, criacao das caixas por setor e treinamento hands-on completo para o time.',
+        defaultDays: 5
+      },
+      email: {
+        label: 'E-mail Mkt',
+        tag:   'Disparos de E-mail Marketing',
+        title: 'Campanhas de E-mail Marketing',
+        phase: 'Marketing Automatizado',
+        desc:  'Configuracao das automacoes de e-mail, segmentacao avancada da lista de contatos, criacao de templates de alta conversao e relatorios detalhados.',
+        defaultDays: 10
+      }
     };
 
-    /* Get slug from path: /suplementos → "suplementos" */
+    /* Get slug from URL path */
     var slug = (window.location.pathname.replace(/^\//, '').replace(/\.html$/, '') || '').toLowerCase();
+    if (!slug || slug === 'proposta') return;
 
-    if (!slug || slug === 'proposta') return; /* standalone use, no patching */
-
-    /* Fetch proposals.json and patch the page after DOM ready */
     fetch('/proposals.json?v=' + Date.now())
       .then(function(r) { return r.json(); })
-      .then(function(proposals) {
-        var p = proposals.find(function(x) { return x.slug === slug; });
-        if (!p) {
-          console.warn('[Proposta] Nenhuma proposta encontrada para slug: ' + slug);
-          return;
-        }
-        /* Patch after DOM is ready */
+      .then(function(list) {
+        var p = list.find(function(x) { return x.slug === slug; });
+        if (!p) { console.warn('[Proposta] Slug nao encontrado: ' + slug); return; }
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', function() { applyProposal(p); });
         } else {
           applyProposal(p);
         }
       })
-      .catch(function(e) { console.warn('[Proposta] proposals.json nao encontrado:', e); });
+      .catch(function(e) { console.warn('[Proposta] proposals.json nao carregado:', e); });
 
+    /* ── HELPER: parse days from timeline string ── */
+    function parseDays(raw, productKey) {
+      if (!raw) return (PROD[productKey] || {}).defaultDays || 7;
+      var m = raw.match(/(\d+)/);
+      if (!m) return (PROD[productKey] || {}).defaultDays || 7;
+      var n = parseInt(m[1], 10);
+      if (/semana/i.test(raw)) n = n * 7;
+      return n;
+    }
+
+    /* ── HELPER: format a period label from accumulated days ── */
+    function periodLabel(startDay, endDay) {
+      var startWeek = Math.ceil(startDay / 7);
+      var endWeek   = Math.ceil(endDay / 7);
+      if (startWeek === endWeek) return 'Semana ' + startWeek;
+      return 'Semanas ' + startWeek + '\u2013' + endWeek;
+    }
+
+    /* ── MAIN PATCH FUNCTION ── */
     function applyProposal(p) {
-      var prods = (p.products || []).filter(function(k) { return PROD[k]; });
+      var prods     = (p.products || []).filter(function(k) { return PROD[k]; });
       var timelines = p.timelines || {};
-      var n = prods.length;
+      var n         = prods.length;
 
-      /* ── 1. Meta / title ── */
-      document.title = 'Proposta Comercial — ' + p.client + ' | Automatizze.ia';
+      /* Calculate total days */
+      var totalDays = prods.reduce(function(acc, k) {
+        return acc + parseDays(timelines[k], k);
+      }, 0);
 
-      /* ── 2. Hero: update subtitle and meta count ── */
-      var heroSub = document.querySelector('.hero-sub');
-      if (heroSub) heroSub.innerHTML = 'Desenvolvemos uma solucao completa de IA para <strong>' + escHtml(p.client) + '</strong> — transformando radicalmente o atendimento, as vendas e a recuperacao de clientes do seu negocio.';
-      var countEls = document.querySelectorAll('.hero-meta-item .val');
-      /* Entregas = numero de produtos selecionados */
-      if (countEls[0]) countEls[0].textContent = n;
+      /* ── 1. Page title ── */
+      document.title = 'Proposta — ' + p.client + ' | Automatizze.ia';
 
-      /* Dias de implementacao = soma dos dias numericos de cada timeline */
-      if (countEls[1]) {
-        /* Default days per product if no timeline was set */
-        var DEFAULT_DAYS = { whatsapp: 7, voice: 7, site: 21, crm: 5, email: 10 };
-        var totalDays = prods.reduce(function(acc, k) {
-          var raw = timelines[k] || '';
-          /* Extract first number from string like "7 dias uteis", "21 dias", "3 semanas" */
-          var match = raw.match(/(\d+)/);
-          var days = match ? parseInt(match[1], 10) : (DEFAULT_DAYS[k] || 7);
-          /* Convert weeks to days */
-          if (/semana/i.test(raw)) days = days * 7;
-          return acc + days;
-        }, 0);
-        countEls[1].textContent = totalDays || (n * 7);
-      }
-
-      /* ── 3. Hero tag: add client name ── */
+      /* ── 2. Hero tag ── */
       var heroTag = document.querySelector('.hero-tag');
       if (heroTag) heroTag.innerHTML = '<span class="line"></span>Proposta Exclusiva &mdash; <strong style="color:var(--color-accent)">' + escHtml(p.client) + '</strong><span class="line"></span>';
 
-      /* ── 4. Counter initial value ── */
-      var counter = document.getElementById('delivery-counter');
-      if (counter) counter.textContent = '01 / ' + String(n).padStart(2,'0');
+      /* ── 3. Hero subtitle ── */
+      var heroSub = document.querySelector('.hero-sub');
+      if (heroSub) heroSub.innerHTML = 'Desenvolvemos uma solucao completa de IA para <strong>' + escHtml(p.client) + '</strong> &mdash; transformando radicalmente o atendimento, as vendas e a recuperacao de clientes do seu negocio.';
 
-      /* ── 5. Investment section ── */
+      /* ── 4. Hero meta stats: Entregas + Dias ── */
+      var metaVals = document.querySelectorAll('.hero-meta-item .val');
+      if (metaVals[0]) metaVals[0].textContent = n;
+      if (metaVals[1]) metaVals[1].textContent = totalDays;
+
+      /* ── 5. Delivery section counter ── */
+      var counter = document.getElementById('delivery-counter');
+      if (counter) counter.textContent = '01 / ' + String(n).padStart(2, '0');
+
+      /* ── 6. Investment section ── */
       if (p.value) {
         var priceVal = document.querySelector('.price-value');
         if (priceVal) priceVal.innerHTML = '<span class="currency">R$</span> ' + escHtml(p.value);
         var installEl = document.querySelector('.price-installment');
         if (installEl && p.installment) installEl.innerHTML = 'ou em <strong>' + escHtml(p.installment) + '</strong> sem juros no cartao';
         var cardLabel = document.querySelector('.price-card-label');
-        if (cardLabel) cardLabel.textContent = (p.investmentDesc || 'Pacote Completo') + ' — ' + n + ' Solucao' + (n !== 1 ? 'es' : '');
-
-        /* Replace price-items list with selected products + timelines */
+        if (cardLabel) cardLabel.textContent = (p.investmentDesc || 'Pacote Completo') + ' \u2014 ' + n + ' Soluca' + (n !== 1 ? 'oes' : 'o');
         var itemsEl = document.querySelector('.price-items');
         if (itemsEl) {
           itemsEl.innerHTML = prods.map(function(k) {
-            var prazo = timelines[k] ? '<span class="item-val" style="color:var(--color-accent)">' + escHtml(timelines[k]) + '</span>' : '<span class="item-val">INCLUSO</span>';
-            return '<li class="price-item"><span class="item-name">' + (PROD[k] ? PROD[k].tag : k) + '</span>' + prazo + '</li>';
-          }).join('');
+            var prazo = timelines[k]
+              ? '<span class="item-val" style="color:var(--color-accent)">' + escHtml(timelines[k]) + '</span>'
+              : '<span class="item-val">INCLUSO</span>';
+            return '<li class="price-item"><span class="item-name">' + PROD[k].tag + '</span>' + prazo + '</li>';
+          }).join('') +
+          '<li class="price-item"><span class="item-name">Suporte pos-entrega</span><span class="item-val">INCLUSO</span></li>';
         }
       }
 
-      /* ── 6. CTA WhatsApp message: include client name ── */
+      /* ── 7. CRONOGRAMA: headline + all timeline items ── */
+      var cronH2 = document.querySelector('.timeline-h2');
+      if (cronH2) cronH2.innerHTML = totalDays + ' dias para<br><span>sua empresa transformada.</span>';
+
+      var timelineEl = document.querySelector('.timeline');
+      if (timelineEl) {
+        var cursor = 0;
+        var delayClasses = ['', 'reveal-delay-1', 'reveal-delay-2', 'reveal-delay-3', 'reveal-delay-4'];
+        var html = prods.map(function(k, i) {
+          var days     = parseDays(timelines[k], k);
+          var start    = cursor + 1;
+          cursor      += days;
+          var period   = periodLabel(start, cursor);
+          var faseNum  = String(i + 1).padStart(2, '0');
+          var prod     = PROD[k];
+          var prazoStr = timelines[k] ? ' (' + escHtml(timelines[k]) + ')' : '';
+          return '<div class="timeline-item reveal ' + (delayClasses[i] || '') + '">' +
+            '<div class="timeline-period">' + period + '</div>' +
+            '<div class="timeline-content">' +
+              '<div class="timeline-phase">Fase ' + faseNum + ' &mdash; ' + prod.phase + '</div>' +
+              '<div class="timeline-title">' + prod.title + prazoStr + '</div>' +
+              '<div class="timeline-desc">' + prod.desc + '</div>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+
+        /* Always add the post-delivery support phase */
+        var supportPhase = '<div class="timeline-item reveal ' + (delayClasses[prods.length] || '') + '">' +
+          '<div class="timeline-period">Pos-entrega</div>' +
+          '<div class="timeline-content">' +
+            '<div class="timeline-phase">Fase ' + String(prods.length + 1).padStart(2,'0') + ' &mdash; Acompanhamento</div>' +
+            '<div class="timeline-title">Suporte e Otimizacao</div>' +
+            '<div class="timeline-desc">Suporte dedicado para ajustes, otimizacoes e treinamentos adicionais garantindo que todas as solucoes estejam performando no maximo potencial.</div>' +
+          '</div>' +
+        '</div>';
+
+        timelineEl.innerHTML = html + supportPhase;
+      }
+
+      /* ── 8. CTA WhatsApp ── */
       var ctaLink = document.getElementById('cta-whatsapp');
       if (ctaLink) {
-        var msg = encodeURIComponent('Ola Victor! Vi a proposta para ' + p.client + ' e quero fechar negocio. Pode me ajudar?');
+        var msg = encodeURIComponent('Ola Victor! Vi a proposta para ' + p.client + ' e quero fechar negocio!');
         ctaLink.href = 'https://wa.me/5511962511255?text=' + msg;
       }
     }
 
     function escHtml(s) {
-      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
+
   })();
   </script>
 </head>
