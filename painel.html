@@ -459,13 +459,20 @@
           </div>
           <div class="form-hint">URL da proposta: automatizze.ia.br/<span id="slug-preview" style="color:var(--accent)">slug</span> &mdash; apenas letras, numeros e hifens.</div>
         </div>
+        <div class="form-group">
+          <label class="form-label">Tipo de Cobrança</label>
+          <select id="f-billing-type" class="form-select" onchange="toggleBillingTypeFields()">
+            <option value="one-time">Valor Único / Parcelado</option>
+            <option value="monthly">Mensalidade / Recorrente</option>
+          </select>
+        </div>
         <div class="form-grid">
           <div class="form-group">
-            <label class="form-label">Valor da Proposta *</label>
+            <label class="form-label" id="label-value">Valor da Proposta *</label>
             <input type="text" id="f-value" class="form-input" placeholder="25.000" oninput="maskValue(this)">
           </div>
           <div class="form-group">
-            <label class="form-label">Parcelamento</label>
+            <label class="form-label" id="label-installment">Parcelamento</label>
             <input type="text" id="f-installment" class="form-input" placeholder="10x 2.500">
           </div>
         </div>
@@ -654,6 +661,23 @@ function saveSettings() {
   document.getElementById('modal-api-key').value = settings.apiKey || '';
 }
 
+/* ── BILLING TYPE TOGGLING ── */
+function toggleBillingTypeFields() {
+  var type = document.getElementById('f-billing-type').value;
+  var valLabel = document.getElementById('label-value');
+  var instLabel = document.getElementById('label-installment');
+  var instInput = document.getElementById('f-installment');
+  if (type === 'monthly') {
+    if (valLabel) valLabel.textContent = 'Valor da Mensalidade *';
+    if (instLabel) instLabel.textContent = 'Condições / Observações (Opcional)';
+    if (instInput) instInput.placeholder = 'Ex: Sem taxa de adesão / setup';
+  } else {
+    if (valLabel) valLabel.textContent = 'Valor da Proposta *';
+    if (instLabel) instLabel.textContent = 'Parcelamento';
+    if (instInput) instInput.placeholder = '10x 2.500';
+  }
+}
+
 /* ── MODAL ── */
 function openModal(id) {
   editingId = id || null;
@@ -665,6 +689,7 @@ function openModal(id) {
       document.getElementById('f-client').value          = p.client || '';
       document.getElementById('f-slug').value            = p.slug || '';
       document.getElementById('slug-preview').textContent = p.slug || 'slug';
+      document.getElementById('f-billing-type').value    = p.billingType || 'one-time';
       document.getElementById('f-value').value           = p.value || '';
       document.getElementById('f-installment').value     = p.installment || '';
       document.getElementById('f-investment-desc').value = p.investmentDesc || '';
@@ -673,6 +698,7 @@ function openModal(id) {
       setSelectedProducts(p.products || []);
       updateTimelines();
       if (p.timelines) setTimelines(p.timelines);
+      toggleBillingTypeFields();
       switchTab(0);
     }
   } else {
@@ -687,6 +713,7 @@ function resetForm() {
   ['f-client','f-slug','f-value','f-installment','f-investment-desc','f-notes'].forEach(function(id) {
     document.getElementById(id).value = '';
   });
+  document.getElementById('f-billing-type').value = 'one-time';
   document.getElementById('slug-preview').textContent = 'slug';
   document.getElementById('f-status').value = 'open';
   document.querySelectorAll('.product-item').forEach(function(el) { el.classList.remove('selected'); });
@@ -694,6 +721,7 @@ function resetForm() {
   document.getElementById('timeline-fields').innerHTML = '';
   document.getElementById('timeline-section').style.display = 'none';
   document.getElementById('ai-result').classList.remove('show');
+  toggleBillingTypeFields();
   switchTab(0);
 }
 
@@ -777,6 +805,7 @@ function saveProposal() {
     id:             editingId || ('p_' + Date.now()),
     client:         client,
     slug:           slug,
+    billingType:    document.getElementById('f-billing-type').value || 'one-time',
     value:          document.getElementById('f-value').value.trim(),
     valueNum:       valueNum,
     installment:    document.getElementById('f-installment').value.trim(),
@@ -833,6 +862,9 @@ function renderList() {
     var info = statusMap[p.status] || statusMap.draft;
     var date = new Date(p.createdAt).toLocaleDateString('pt-BR');
     var val  = p.value ? 'R$ ' + p.value : '--';
+    if (p.billingType === 'monthly' && p.value) {
+      val += ' /mês';
+    }
     var url  = p.slug ? 'automatizze.ia.br/' + p.slug : '--';
     return '<div class="proposal-row" onclick="openModal(\'' + p.id + '\')">' +
       '<div class="client-info">' +
@@ -923,11 +955,17 @@ function buildProposalHTML(p) {
       '<span style="font-size:11px;color:#00FFB2;font-family:monospace">' + escHtml(timelines[k] || '') + '</span>' +
       '</li>';
   }).join('');
+  var totalLabel = p.billingType === 'monthly' ? 'Investimento Mensal' : 'Investimento Total';
+  var valFormatted = escHtml(p.value) + (p.billingType === 'monthly' ? ' /mês' : '');
+  var installmentText = p.installment;
+  if (!installmentText && p.billingType === 'monthly') {
+    installmentText = 'Cobrança mensal recorrente sem taxa de setup';
+  }
   var priceHtml = p.value
     ? '<div style="margin:2rem auto;max-width:500px;text-align:center;">' +
-      '<div style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem;">' + escHtml(p.investmentDesc || 'Investimento Total') + '</div>' +
-      '<div style="font-size:48px;font-weight:800;letter-spacing:-2px;">R$ ' + escHtml(p.value) + '</div>' +
-      (p.installment ? '<div style="font-size:14px;color:rgba(255,255,255,0.4);margin-top:.5rem;">ou ' + escHtml(p.installment) + '</div>' : '') +
+      '<div style="font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:2px;margin-bottom:.5rem;">' + escHtml(p.investmentDesc || totalLabel) + '</div>' +
+      '<div style="font-size:48px;font-weight:800;letter-spacing:-2px;">R$ ' + valFormatted + '</div>' +
+      (installmentText ? '<div style="font-size:14px;color:rgba(255,255,255,0.4);margin-top:.5rem;">' + escHtml(installmentText) + '</div>' : '') +
       '</div>'
     : '';
   return '<!doctype html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Proposta &mdash; ' + escHtml(p.client) + ' | Automatizze.ia</title></head>' +
@@ -944,6 +982,7 @@ function downloadProposalFromForm() {
   if (!client || !slug) { showToast('Preencha cliente e slug primeiro', 'error'); return; }
   var p = {
     client: client, slug: slug,
+    billingType: document.getElementById('f-billing-type').value || 'one-time',
     value: document.getElementById('f-value').value.trim(),
     installment: document.getElementById('f-installment').value.trim(),
     investmentDesc: document.getElementById('f-investment-desc').value.trim(),

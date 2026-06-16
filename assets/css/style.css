@@ -470,6 +470,7 @@ body:hover .cursor { opacity: 1; }
   gap: 0.5rem;
   opacity: 0;
   animation: fadeIn 1s ease 1.5s forwards;
+  transition: opacity var(--transition-base);
 }
 
 .chapter-indicator .scroll-line {
@@ -1473,7 +1474,7 @@ body:hover .cursor { opacity: 1; }
 }
 
 /* -------- RESPONSIVE -------- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   :root {
     --padding-container: var(--padding-container-mobile);
   }
@@ -1502,13 +1503,11 @@ body:hover .cursor { opacity: 1; }
   }
 
   .tech-tags {
-    margin-top: 2.5rem !important;
-    gap: 6px !important;
+    display: none !important;
   }
 
-  .tech-tag {
-    font-size: 9px !important;
-    padding: 4px 10px !important;
+  .h-scrollbar {
+    display: none !important;
   }
 
   .hero-h1 {

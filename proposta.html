@@ -1452,11 +1452,25 @@
       /* ── 7. Investment section ── */
       if (p.value) {
         var priceVal = document.querySelector('.price-value');
-        if (priceVal) priceVal.innerHTML = '<span class="currency">R$</span> ' + escHtml(p.value);
+        var priceSub = document.querySelector('.price-sub');
         var installEl = document.querySelector('.price-installment');
-        if (installEl && p.installment) installEl.innerHTML = 'ou em <strong>' + escHtml(p.installment) + '</strong> sem juros no cartão';
         var cardLabel = document.querySelector('.price-card-label');
-        if (cardLabel) cardLabel.textContent = (p.investmentDesc || 'Pacote Completo') + ' \u2014 ' + n + ' Soluç' + (n !== 1 ? 'ões' : 'ão');
+        var investmentH2Span = document.querySelector('.investment-h2 span');
+ 
+        if (p.billingType === 'monthly') {
+          if (priceVal) priceVal.innerHTML = '<span class="currency">R$</span> ' + escHtml(p.value) + '<span style="font-size:0.3em;font-weight:400;color:var(--color-text-secondary);margin-left:5px;">/mês</span>';
+          if (priceSub) priceSub.textContent = 'Investimento Mensal';
+          if (installEl) installEl.innerHTML = p.installment ? escHtml(p.installment) : 'Cobrança mensal recorrente sem taxa de setup';
+          if (cardLabel) cardLabel.textContent = 'Mensalidade \u2014 ' + (p.investmentDesc || (n + ' Soluç' + (n !== 1 ? 'ões' : 'ão')));
+          if (investmentH2Span) investmentH2Span.textContent = 'Investimento recorrente.';
+        } else {
+          if (priceVal) priceVal.innerHTML = '<span class="currency">R$</span> ' + escHtml(p.value);
+          if (priceSub) priceSub.textContent = 'Valor Total';
+          if (installEl) installEl.innerHTML = p.installment ? 'ou em <strong>' + escHtml(p.installment) + '</strong> sem juros no cartão' : '';
+          if (cardLabel) cardLabel.textContent = (p.investmentDesc || 'Pacote Completo') + ' \u2014 ' + n + ' Soluç' + (n !== 1 ? 'ões' : 'ão');
+          if (investmentH2Span) investmentH2Span.textContent = 'Um único investimento.';
+        }
+ 
         var itemsEl = document.querySelector('.price-items');
         if (itemsEl) {
           itemsEl.innerHTML = prods.map(function(k) {

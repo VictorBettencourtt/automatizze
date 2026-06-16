@@ -85,6 +85,17 @@
   }, { passive: true });
 })();
 
+// ─── FADE OUT SCROLL INDICATOR ──────────────────────────────────
+(function initScrollIndicator() {
+  const indicator = document.querySelector('.chapter-indicator');
+  if (!indicator) return;
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    indicator.style.opacity = Math.max(0, 1 - y / 300);
+  }, { passive: true });
+})();
+
 // ─── FULLSCREEN MENU ───────────────────────────────────────────
 (function initMenu() {
   const nav = document.getElementById('nav');
