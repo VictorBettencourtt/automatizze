@@ -1,12 +1,12 @@
 [
   {
-    "id": "p_1781567501069",
+    "id": "p_1781568067650",
     "client": "integracaps",
     "slug": "integracaps",
     "value": "35.000",
     "valueNum": 35000,
     "installment": "10x3.500",
-    "investmentDesc": "",
+    "investmentDesc": "Pacote mais completo da Automatizze",
     "status": "open",
     "products": [
       "whatsapp",
@@ -21,7 +21,7 @@
       "crm": "5 dias uteis"
     },
     "notes": "",
-    "createdAt": "2026-06-15T23:51:41.069Z",
-    "updatedAt": "2026-06-15T23:51:41.069Z"
+    "createdAt": "2026-06-16T00:01:07.650Z",
+    "updatedAt": "2026-06-16T00:01:07.650Z"
   }
 ]
