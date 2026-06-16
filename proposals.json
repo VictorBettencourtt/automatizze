@@ -1,32 +1,5 @@
 [
   {
-    "id": "p_1781576823317",
-    "client": "integracaps",
-    "slug": "integracaps",
-    "value": "35.000",
-    "valueNum": 35000,
-    "installment": "10x3.500",
-    "investmentDesc": "",
-    "status": "open",
-    "products": [
-      "whatsapp",
-      "voice",
-      "site",
-      "crm",
-      "cart"
-    ],
-    "timelines": {
-      "whatsapp": "14 dias uteis",
-      "voice": "14 dias uteis",
-      "site": "21 dias uteis",
-      "crm": "2 dias uteis",
-      "cart": "2 dias uteis"
-    },
-    "notes": "",
-    "createdAt": "2026-06-16T02:27:03.317Z",
-    "updatedAt": "2026-06-16T02:27:03.317Z"
-  },
-  {
     "id": "p_1781569372943",
     "client": "testes 123",
     "slug": "testes123",
