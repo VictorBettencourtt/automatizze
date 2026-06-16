@@ -4,8 +4,8 @@
     "client": "Integraps",
     "slug": "integracaps",
     "billingType": "monthly",
-    "value": "4.000",
-    "valueNum": 4000,
+    "value": "2.000",
+    "valueNum": 2000,
     "installment": "Sem taxa de implementação",
     "investmentDesc": "Pacote mais completa da Automatizze.ia",
     "status": "open",
@@ -19,7 +19,7 @@
     },
     "notes": "",
     "createdAt": "2026-06-16T22:14:00.924Z",
-    "updatedAt": "2026-06-16T23:48:49.548Z"
+    "updatedAt": "2026-06-16T23:49:57.244Z"
   },
   {
     "id": "p_1781569372943",
