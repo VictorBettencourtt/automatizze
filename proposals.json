@@ -11,21 +11,15 @@
     "status": "open",
     "products": [
       "whatsapp",
-      "voice",
-      "site",
-      "crm",
-      "cart"
+      "site"
     ],
     "timelines": {
       "whatsapp": "14 dias uteis",
-      "voice": "14 dias uteis",
-      "site": "14 dias uteis",
-      "crm": "2 dias uteis",
-      "cart": "2 dias uteis"
+      "site": "14 dias uteis"
     },
     "notes": "",
     "createdAt": "2026-06-16T22:14:00.924Z",
-    "updatedAt": "2026-06-16T22:14:00.924Z"
+    "updatedAt": "2026-06-16T23:48:49.548Z"
   },
   {
     "id": "p_1781569372943",
