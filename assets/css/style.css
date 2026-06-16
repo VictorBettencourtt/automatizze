@@ -549,6 +549,13 @@ body:hover .cursor { opacity: 1; }
   height: 100vh;
   position: sticky;
   top: 0;
+  overflow: hidden;
+  background: #000;
+}
+
+/* Mobile cards fallback for horizontal scroll */
+.mobile-cards {
+  display: none;
 }
 
 /* Background scrolling text */
@@ -1503,6 +1510,57 @@ body:hover .cursor { opacity: 1; }
 
   .cursor, .cursor-dot { display: none; }
   body { cursor: default; }
+
+  /* Horizontal scroll section mobile behavior */
+  #como-funciona {
+    position: static !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .horizontal-track {
+    display: none !important;
+  }
+  .mobile-cards {
+    display: block;
+    border-top: 1px solid var(--color-border);
+  }
+  .mobile-card {
+    border-bottom: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .mobile-card-img {
+    background: var(--color-bg-card);
+    padding: 3rem 1.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: center;
+  }
+  .mobile-card-img .screen-mockup {
+    max-width: 100%;
+  }
+  .mobile-card-body {
+    padding: 2.5rem 1.5rem;
+  }
+  .mobile-card-body .slide-tag {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+  }
+  .mobile-card-body .slide-title {
+    font-size: clamp(24px, 6vw, 36px);
+    font-weight: 500;
+    letter-spacing: -1px;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  .mobile-card-body .slide-desc {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
 }
 
 /* -------- ANIMATIONS ON SCROLL (IntersectionObserver) -------- */
