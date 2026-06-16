@@ -1158,55 +1158,121 @@
   <script>
   (function() {
 
-    /* Per-product metadata for timeline generation */
+    /* Per-product metadata for timeline and scrollytelling generation */
     var PROD = {
       whatsapp: {
         label: 'WhatsApp IA',
         tag:   'Agente de IA no WhatsApp',
         title: 'Agente IA no WhatsApp',
+        titleHtml: 'Agente de IA<br>no WhatsApp',
         phase: 'Atendimento Automatizado',
-        desc:  'Configuracao do agente inteligente treinado com o DNA do negocio — atende, responde duvidas, qualifica leads e agenda reunioes 24h por dia. Treinamento completo da equipe incluso.',
-        defaultDays: 7
+        desc:  'Configuração do agente inteligente treinado com o DNA do negócio — atende, responde dúvidas, qualifica leads e agenda reuniões 24h por dia. Treinamento completo da equipe incluso.',
+        defaultDays: 7,
+        img: 'assets/demo_whatsapp.png',
+        url: 'automatizze.ia — agente whatsapp',
+        liveBadge: 'Ao Vivo',
+        features: [
+          'Respostas instantâneas em linguagem natural',
+          'Qualificação automática de leads por fluxo',
+          'Integração com seu CRM e agenda',
+          'Relatórios de conversas e métricas',
+          'Treinamento completo com dados do seu negócio'
+        ]
       },
       voice: {
-        label: 'IA de Ligacao',
-        tag:   'Agente IA de Ligacao (Vapi)',
-        title: 'Agente IA de Ligacao (Vapi)',
-        phase: 'Ligacoes Automatizadas',
-        desc:  'Desenvolvimento e configuracao do agente de voz ultra-realista, criacao dos fluxos de ligacao, personalizacao da voz e integracao com a lista de leads e CRM.',
-        defaultDays: 7
+        label: 'IA de Ligação',
+        tag:   'Agente IA de Ligação (Vapi)',
+        title: 'Agente IA de Ligação (Vapi)',
+        titleHtml: 'Agente IA<br>de Ligação (Vapi)',
+        phase: 'Ligações Automatizadas',
+        desc:  'Desenvolvimento e configuração do agente de voz ultra-realista, criação dos fluxos de ligação, personalização da voz e integração com a lista de leads e CRM.',
+        defaultDays: 7,
+        img: 'assets/demo_voice.png',
+        url: 'vapi.ai — voice agent',
+        liveBadge: 'Em Ligação',
+        features: [
+          'Voz de IA personalizada para sua marca',
+          'Fluxo de conversa por ligação configurado',
+          'Integração com lista de leads e CRM',
+          'Transcrição e análise de chamadas',
+          'Dashboard de performance em tempo real'
+        ]
       },
       site: {
         label: 'Site Premium',
         tag:   'Desenvolvimento do Site',
         title: 'Site / E-commerce Premium',
-        phase: 'Presenca Digital',
-        desc:  'Desenvolvimento completo do site ou loja online com design exclusivo, integracao de pagamentos (Pix, cartao), catalogo de produtos e painel administrativo.',
-        defaultDays: 21
+        titleHtml: 'Desenvolvimento<br>do Site E-commerce',
+        phase: 'Presença Digital',
+        desc:  'Desenvolvimento completo do site ou loja online com design exclusivo, integração de pagamentos (Pix, cartão), catálogo de produtos e painel administrativo.',
+        defaultDays: 21,
+        img: 'assets/demo_ecommerce.png',
+        url: 'loja.suaempresa.com.br',
+        liveBadge: 'Loja Online',
+        features: [
+          'Design exclusivo e responsivo (mobile first)',
+          'Catálogo de produtos e gestão de estoque',
+          'Gateway de pagamento integrado (Pix, cartão)',
+          'SEO técnico e velocidade otimizados',
+          'Painel admin para você gerenciar sozinho'
+        ]
       },
       crm: {
         label: 'CRM Chatwoot',
-        tag:   'Instalacao de CRM (Chatwoot)',
-        title: 'CRM Chatwoot + Integracao',
+        tag:   'Instalação de CRM (Chatwoot)',
+        title: 'CRM Chatwoot + Integração',
+        titleHtml: 'Plataforma Chatwoot<br>+ Treinamento',
         phase: 'Central de Atendimento',
-        desc:  'Configuracao da plataforma Chatwoot, integracao com WhatsApp Business API, criacao das caixas por setor e treinamento hands-on completo para o time.',
-        defaultDays: 5
+        desc:  'Configuração da plataforma Chatwoot, integração com WhatsApp Business API, criação das caixas por setor e treinamento hands-on completo para o time.',
+        defaultDays: 5,
+        img: 'assets/demo_chatwoot.png',
+        url: 'app.chatwoot.com — inbox',
+        liveBadge: 'Demo',
+        features: [
+          'Instalação e configuração no seu servidor',
+          'Integração com WhatsApp Business API',
+          'Criação de caixas de entrada por setor',
+          'Treinamento completo para o time (online)',
+          'Documentação e suporte pós-entrega'
+        ]
       },
       email: {
         label: 'E-mail Mkt',
         tag:   'Disparos de E-mail Marketing',
         title: 'Campanhas de E-mail Marketing',
+        titleHtml: 'Automação de<br>E-mail Marketing',
         phase: 'Marketing Automatizado',
-        desc:  'Configuracao das automacoes de e-mail, segmentacao avancada da lista de contatos, criacao de templates de alta conversao e relatorios detalhados.',
-        defaultDays: 10
+        desc:  'Configuração das automações de e-mail, segmentação avançada da lista de contatos, criação de templates de alta conversão e relatórios detalhados.',
+        defaultDays: 10,
+        img: 'assets/demo_email.png',
+        url: 'mautic.automatizze.ia — campanhas',
+        liveBadge: 'E-mail Mkt',
+        features: [
+          'Configuração das automações de e-mail',
+          'Segmentação avançada da lista de contatos',
+          'Criação de templates de alta conversão',
+          'Relatórios detalhados de abertura e clique',
+          'Integração com e-commerce e CRM'
+        ]
       },
       cart: {
         label: 'Rec. Carrinho',
-        tag:   'Recuperacao de Carrinho IA',
-        title: 'Recuperacao de Carrinho com IA',
-        phase: 'Recuperacao de Clientes',
+        tag:   'Recuperação de Carrinho IA',
+        title: 'Recuperação de Carrinho com IA',
+        titleHtml: 'Recuperação de<br>Carrinho com IA',
+        phase: 'Recuperação de Clientes',
         desc:  'Sistema inteligente que identifica clientes que abandonaram o carrinho ou ficaram inativos e aciona automaticamente via WhatsApp, e-mail e SMS com mensagens personalizadas.',
-        defaultDays: 7
+        defaultDays: 7,
+        img: 'assets/demo_recovery.png',
+        url: 'dashboard — recuperação de carrinho',
+        liveBadge: 'Automático',
+        features: [
+          'Gatilho automático de abandono de carrinho',
+          'Ligação de IA com oferta personalizada',
+          'Mensagem WhatsApp com link direto ao carrinho',
+          'Sequência de follow-ups programados',
+          'Relatório de vendas recuperadas'
+        ]
       }
     };
 
@@ -1265,25 +1331,132 @@
 
       /* ── 3. Hero subtitle ── */
       var heroSub = document.querySelector('.hero-sub');
-      if (heroSub) heroSub.innerHTML = 'Desenvolvemos uma solucao completa de IA para <strong>' + escHtml(p.client) + '</strong> &mdash; transformando radicalmente o atendimento, as vendas e a recuperacao de clientes do seu negocio.';
+      if (heroSub) heroSub.innerHTML = 'Desenvolvemos uma solução completa de IA para <strong>' + escHtml(p.client) + '</strong> &mdash; transformando radicalmente o atendimento, as vendas e a recuperação de clientes do seu negócio.';
 
       /* ── 4. Hero meta stats: Entregas + Dias ── */
       var metaVals = document.querySelectorAll('.hero-meta-item .val');
       if (metaVals[0]) metaVals[0].textContent = n;
       if (metaVals[1]) metaVals[1].textContent = totalDays;
 
-      /* ── 5. Delivery section counter ── */
+      /* ── 5. Dynamic Deliveries Scrollytelling & Mobile Cards ── */
+      // Desktop visuals (replaces only the visuals inside the panel, leaving background orbs and counter)
+      var panel = document.querySelector('.delivery-visual-panel');
+      if (panel) {
+        // Remove existing visual mockup cards
+        var oldVisuals = panel.querySelectorAll('.delivery-visual');
+        oldVisuals.forEach(function(el) { el.parentNode.removeChild(el); });
+
+        // Insert new ones before the counter elements
+        var counterEl = document.getElementById('delivery-counter');
+        prods.forEach(function(k, idx) {
+          var prod = PROD[k];
+          var isActive = idx === 0 ? ' active' : '';
+          var tempDiv = document.createElement('div');
+          tempDiv.className = 'delivery-visual' + isActive;
+          tempDiv.setAttribute('data-visual', idx);
+          tempDiv.innerHTML = '<div class="screen-mockup">' +
+            '<div class="screen-mockup-top">' +
+              '<div class="screen-dot screen-dot-red"></div>' +
+              '<div class="screen-dot screen-dot-yellow"></div>' +
+              '<div class="screen-dot screen-dot-green"></div>' +
+              '<div class="screen-url-bar"><span class="screen-url-text">' + escHtml(prod.url) + '</span></div>' +
+            '</div>' +
+            '<div class="screen-body">' +
+              '<img src="' + prod.img + '" alt="Demo ' + escHtml(prod.title) + '" loading="lazy">' +
+              '<div class="screen-live-badge"><span class="screen-live-dot"></span>' + escHtml(prod.liveBadge) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="delivery-visual-tag">Entrega ' + String(idx + 1).padStart(2, '0') + ' &mdash; ' + escHtml(prod.label) + '</div>';
+          panel.insertBefore(tempDiv, counterEl);
+        });
+      }
+
+      // Desktop texts
+      var textsTrack = document.querySelector('.delivery-text-track');
+      if (textsTrack) {
+        textsTrack.innerHTML = prods.map(function(k, idx) {
+          var prod = PROD[k];
+          var isActive = idx === 0 ? ' active' : '';
+          var featuresHtml = prod.features.map(function(f) {
+            return '<li class="delivery-feature">' + escHtml(f) + '</li>';
+          }).join('');
+          return '<div class="delivery-text' + isActive + '" data-text="' + idx + '">' +
+            '<div class="delivery-num">Entrega ' + String(idx + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') + '</div>' +
+            '<h3 class="delivery-h3">' + prod.titleHtml + '</h3>' +
+            '<p class="delivery-desc">' + escHtml(prod.desc) + '</p>' +
+            '<ul class="delivery-features">' + featuresHtml + '</ul>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Desktop dots
+      var dotsContainer = document.getElementById('delivery-dots');
+      if (dotsContainer) {
+        dotsContainer.innerHTML = prods.map(function(k, idx) {
+          var isActive = idx === 0 ? ' active' : '';
+          return '<div class="delivery-dot' + isActive + '" data-goto="' + idx + '"></div>';
+        }).join('');
+      }
+
+      // Desktop spacer height (sets scroll height proportional to product count)
+      var spaceEl = document.getElementById('deliveries-space');
+      if (spaceEl) {
+        spaceEl.style.height = (n * 100) + 'vh';
+      }
+
+      // Mobile static cards
+      var mobileCardsContainer = document.querySelector('.mobile-cards');
+      if (mobileCardsContainer) {
+        mobileCardsContainer.innerHTML = prods.map(function(k, idx) {
+          var prod = PROD[k];
+          var featuresHtml = prod.features.map(function(f) {
+            return '<li class="delivery-feature">' + escHtml(f) + '</li>';
+          }).join('');
+          return '<div class="mobile-card">' +
+            '<div class="mobile-card-img">' +
+              '<div class="screen-mockup">' +
+                '<div class="screen-mockup-top">' +
+                  '<div class="screen-dot screen-dot-red"></div>' +
+                  '<div class="screen-dot screen-dot-yellow"></div>' +
+                  '<div class="screen-dot screen-dot-green"></div>' +
+                  '<div class="screen-url-bar"><span class="screen-url-text">' + escHtml(prod.url) + '</span></div>' +
+                '</div>' +
+                '<div class="screen-body">' +
+                  '<img src="' + prod.img + '" alt="Demo ' + escHtml(prod.title) + '" loading="lazy">' +
+                  '<div class="screen-live-badge"><span class="screen-live-dot"></span>' + escHtml(prod.liveBadge) + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mobile-card-body">' +
+              '<div class="delivery-num">Entrega ' + String(idx + 1).padStart(2, '0') + ' / ' + String(n).padStart(2, '0') + '</div>' +
+              '<h3 class="delivery-h3">' + prod.titleHtml + '</h3>' +
+              '<p class="delivery-desc">' + escHtml(prod.desc) + '</p>' +
+              '<ul class="delivery-features">' + featuresHtml + '</ul>' +
+              '<span class="delivery-visual-tag">Entrega ' + String(idx + 1).padStart(2, '0') + ' &mdash; ' + escHtml(prod.label) + '</span>' +
+            '</div>' +
+          '</div>';
+        }).join('');
+      }
+
+      // Intro section paragraph text
+      var introP = document.querySelector('.intro-p');
+      if (introP) {
+        var solucaoTexto = n === 1 ? '1 solução de IA integrada que vai' : n + ' soluções de IA integradas que vão';
+        introP.innerHTML = 'Atendimentos manuais lentos, carrinhos abandonados sem follow-up, leads que não são convertidos e um time sobrecarregado fazendo tarefas repetitivas. Preparamos ' + solucaoTexto + ' mudar completamente essa realidade — do atendimento ao fechamento de vendas.';
+      }
+
+      /* ── 6. Delivery section counter ── */
       var counter = document.getElementById('delivery-counter');
       if (counter) counter.textContent = '01 / ' + String(n).padStart(2, '0');
 
-      /* ── 6. Investment section ── */
+      /* ── 7. Investment section ── */
       if (p.value) {
         var priceVal = document.querySelector('.price-value');
         if (priceVal) priceVal.innerHTML = '<span class="currency">R$</span> ' + escHtml(p.value);
         var installEl = document.querySelector('.price-installment');
-        if (installEl && p.installment) installEl.innerHTML = 'ou em <strong>' + escHtml(p.installment) + '</strong> sem juros no cartao';
+        if (installEl && p.installment) installEl.innerHTML = 'ou em <strong>' + escHtml(p.installment) + '</strong> sem juros no cartão';
         var cardLabel = document.querySelector('.price-card-label');
-        if (cardLabel) cardLabel.textContent = (p.investmentDesc || 'Pacote Completo') + ' \u2014 ' + n + ' Soluca' + (n !== 1 ? 'oes' : 'o');
+        if (cardLabel) cardLabel.textContent = (p.investmentDesc || 'Pacote Completo') + ' \u2014 ' + n + ' Soluç' + (n !== 1 ? 'ões' : 'ão');
         var itemsEl = document.querySelector('.price-items');
         if (itemsEl) {
           itemsEl.innerHTML = prods.map(function(k) {
@@ -1292,11 +1465,11 @@
               : '<span class="item-val">INCLUSO</span>';
             return '<li class="price-item"><span class="item-name">' + PROD[k].tag + '</span>' + prazo + '</li>';
           }).join('') +
-          '<li class="price-item"><span class="item-name">Suporte pos-entrega</span><span class="item-val">INCLUSO</span></li>';
+          '<li class="price-item"><span class="item-name">Suporte pós-entrega</span><span class="item-val">INCLUSO</span></li>';
         }
       }
 
-      /* ── 7. CRONOGRAMA: headline + all timeline items ── */
+      /* ── 8. CRONOGRAMA: headline + all timeline items ── */
       var cronH2 = document.querySelector('.timeline-h2');
       if (cronH2) cronH2.innerHTML = totalDays + ' dias para<br><span>sua empresa transformada.</span>';
 
@@ -1324,11 +1497,11 @@
 
         /* Always add the post-delivery support phase */
         var supportPhase = '<div class="timeline-item reveal ' + (delayClasses[prods.length] || '') + '">' +
-          '<div class="timeline-period">Pos-entrega</div>' +
+          '<div class="timeline-period">Pós-entrega</div>' +
           '<div class="timeline-content">' +
             '<div class="timeline-phase">Fase ' + String(prods.length + 1).padStart(2,'0') + ' &mdash; Acompanhamento</div>' +
-            '<div class="timeline-title">Suporte e Otimizacao</div>' +
-            '<div class="timeline-desc">Suporte dedicado para ajustes, otimizacoes e treinamentos adicionais garantindo que todas as solucoes estejam performando no maximo potencial.</div>' +
+            '<div class="timeline-title">Suporte e Otimização</div>' +
+            '<div class="timeline-desc">Suporte dedicado para ajustes, otimizações e treinamentos adicionais garantindo que todas as soluções estejam performando no máximo potencial.</div>' +
           '</div>' +
         '</div>';
 
@@ -1349,13 +1522,12 @@
             });
           }, 300);
         }
-        }
       }
 
-      /* ── 8. CTA WhatsApp ── */
+      /* ── 9. CTA WhatsApp ── */
       var ctaLink = document.getElementById('cta-whatsapp');
       if (ctaLink) {
-        var msg = encodeURIComponent('Ola Victor! Vi a proposta para ' + p.client + ' e quero fechar negocio!');
+        var msg = encodeURIComponent('Olá Victor! Vi a proposta para ' + p.client + ' e quero fechar negócio!');
         ctaLink.href = 'https://wa.me/5511962511255?text=' + msg;
       }
     }
@@ -2123,16 +2295,17 @@
       const sticky  = document.getElementById('deliveries-sticky');
       if (!section || !space || !sticky) return;
 
-      const visuals  = document.querySelectorAll('.delivery-visual');
-      const texts    = document.querySelectorAll('.delivery-text');
-      const dots     = document.querySelectorAll('.delivery-dot');
-      const counter  = document.getElementById('delivery-counter');
-      const progBar  = document.getElementById('delivery-progress-bar');
-
-      const total = visuals.length; // 5
       let current = -1;
 
       function setDelivery(idx) {
+        const visuals  = document.querySelectorAll('.delivery-visual');
+        const texts    = document.querySelectorAll('.delivery-text');
+        const dots     = document.querySelectorAll('.delivery-dot');
+        const counter  = document.getElementById('delivery-counter');
+        const progBar  = document.getElementById('delivery-progress-bar');
+        const total = visuals.length;
+        if (total === 0) return;
+
         if (idx === current || idx < 0 || idx >= total) return;
         current = idx;
 
@@ -2147,6 +2320,8 @@
       window.addEventListener('scroll', () => {
         const spaceRect = space.getBoundingClientRect();
         const stickyRect = sticky.getBoundingClientRect();
+        const total = document.querySelectorAll('.delivery-visual').length;
+        if (total === 0) return;
 
         // Are we in the sticky zone?
         if (stickyRect.top > 0 || spaceRect.bottom < window.innerHeight) {
@@ -2167,15 +2342,20 @@
       // Init
       setDelivery(0);
 
-      // Dot navigation — scroll to corresponding delivery
-      dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-          const idx = parseInt(dot.dataset.goto);
+      // Dot navigation — scroll to corresponding delivery via delegation
+      const dotsContainer = document.getElementById('delivery-dots');
+      if (dotsContainer) {
+        dotsContainer.addEventListener('click', (e) => {
+          const dot = e.target.closest('.delivery-dot');
+          if (!dot) return;
+          const total = document.querySelectorAll('.delivery-visual').length;
+          if (total === 0) return;
+          const idx = parseInt(dot.dataset.goto, 10);
           const spaceTop = space.getBoundingClientRect().top + window.scrollY;
           const scrollTarget = spaceTop + (idx / total) * (space.offsetHeight - window.innerHeight);
           window.scrollTo({ top: scrollTarget, behavior: 'smooth' });
         });
-      });
+      }
     })();
 
     /* ---- YEAR ---- */
