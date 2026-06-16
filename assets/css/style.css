@@ -1483,7 +1483,33 @@ body:hover .cursor { opacity: 1; }
     height: 60px;
   }
 
-  .right-nav .hide-mobile { display: none; }
+  .right-nav { display: none !important; }
+
+  .hero-static {
+    min-height: 100vh;
+    height: auto !important;
+    overflow: visible !important;
+    padding-top: 120px !important;
+    padding-bottom: 60px !important;
+  }
+
+  .hero-badge {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .hero-lead {
+    margin-bottom: 2rem !important;
+  }
+
+  .tech-tags {
+    margin-top: 2.5rem !important;
+    gap: 6px !important;
+  }
+
+  .tech-tag {
+    font-size: 9px !important;
+    padding: 4px 10px !important;
+  }
 
   .hero-h1 {
     font-size: clamp(32px, 12vw, 56px);
