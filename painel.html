@@ -546,6 +546,33 @@
               </div>
               <div class="product-check">&#x2713;</div>
             </label>
+            <label class="product-item" data-key="traffic">
+              <input type="checkbox" value="traffic">
+              <div class="product-icon">&#x1F4C8;</div>
+              <div class="product-info">
+                <div class="product-name">Gestao de Trafego com IA</div>
+                <div class="product-desc">Anuncios no Meta/Google otimizados por IA</div>
+              </div>
+              <div class="product-check">&#x2713;</div>
+            </label>
+            <label class="product-item" data-key="leads_maps">
+              <input type="checkbox" value="leads_maps">
+              <div class="product-icon">&#x1F4CD;</div>
+              <div class="product-info">
+                <div class="product-name">Extracao Leads Maps</div>
+                <div class="product-desc">Varredura no Maps via Serp API + disparo IA</div>
+              </div>
+              <div class="product-check">&#x2713;</div>
+            </label>
+            <label class="product-item" data-key="leads_linkedin">
+              <input type="checkbox" value="leads_linkedin">
+              <div class="product-icon">&#x1F4BC;</div>
+              <div class="product-info">
+                <div class="product-name">Extracao Leads LinkedIn</div>
+                <div class="product-desc">Robo de prospeccao B2B de decisores</div>
+              </div>
+              <div class="product-check">&#x2713;</div>
+            </label>
           </div>
         </div>
         <div class="form-group" id="timeline-section" style="display:none">
@@ -768,8 +795,8 @@ function updateTimelines() {
   var fields = document.getElementById('timeline-fields');
   if (!selected.length) { sec.style.display = 'none'; fields.innerHTML = ''; return; }
   sec.style.display = '';
-  var defaults = { whatsapp: '7 dias uteis', voice: '7 dias uteis', site: '21 dias uteis', crm: '5 dias uteis', email: '10 dias uteis', cart: '7 dias uteis' };
-  var labels   = { whatsapp: 'IA no WhatsApp', voice: 'IA de Ligacao (Vapi)', site: 'Criacao de Site', crm: 'Instalacao de CRM', email: 'Disparo de E-mails', cart: 'Recuperacao de Carrinho IA' };
+  var defaults = { whatsapp: '7 dias uteis', voice: '7 dias uteis', site: '21 dias uteis', crm: '5 dias uteis', email: '10 dias uteis', cart: '7 dias uteis', traffic: '10 dias uteis', leads_maps: '7 dias uteis', leads_linkedin: '7 dias uteis' };
+  var labels   = { whatsapp: 'IA no WhatsApp', voice: 'IA de Ligacao (Vapi)', site: 'Criacao de Site', crm: 'Instalacao de CRM', email: 'Disparo de E-mails', cart: 'Recuperacao de Carrinho IA', traffic: 'Gestao de Trafego IA', leads_maps: 'Extracao Leads Maps', leads_linkedin: 'Extracao Leads LinkedIn' };
   var existing = getTimelines();
   fields.innerHTML = selected.map(function(k) {
     var val = existing[k] || defaults[k] || '';
@@ -942,7 +969,10 @@ var PRODUCT_DATA = {
   site:     { num_label: 'Site Premium',   title: 'Desenvolvimento<br>do Site',           img: 'assets/demo_ecommerce.png',url: 'loja.suaempresa.com.br',                 badge: 'Loja Online', tag: 'Site / E-commerce',desc: 'Site ou e-commerce com design premium, otimizado para conversao e motores de busca.', features: ['Design exclusivo e responsivo','Catalogo de produtos e gestao de estoque','Gateway de pagamento (Pix, cartao)','Painel admin'] },
   crm:      { num_label: 'CRM Chatwoot',   title: 'Instalacao de CRM<br>(Chatwoot)',      img: 'assets/demo_chatwoot.png', url: 'app.chatwoot.com &mdash; inbox',         badge: 'Demo',       tag: 'CRM / Chatwoot',  desc: 'Central unificada de conversas: WhatsApp, e-mail e outros canais em um so lugar, com treinamento incluso.', features: ['Instalacao e configuracao','Integracao com WhatsApp Business API','Caixas por setor','Treinamento completo'] },
   email:    { num_label: 'E-mail Mkt',     title: 'Disparos de<br>E-mail Marketing',      img: 'assets/demo_email.png',    url: 'campaigns.automatizze.ia &mdash; email', badge: 'Enviando',   tag: 'E-mail Marketing', desc: 'Campanhas automaticas e segmentadas para nutrir leads, recuperar clientes e impulsionar vendas.', features: ['Automacoes de e-mail','Segmentacao avancada','Templates de alta conversao','Relatorios de abertura'] },
-  cart:     { num_label: 'Rec. Carrinho',  title: 'Recuperacao de<br>Carrinho com IA',     img: 'assets/demo_cart.png',     url: 'automatizze.ia &mdash; cart recovery',   badge: 'Ativo',      tag: 'Recuperacao de Carrinho IA', desc: 'Sistema inteligente que identifica clientes que abandonaram o carrinho e aciona automaticamente via WhatsApp, e-mail e SMS.', features: ['Deteccao automatica de abandono','Sequencia de mensagens personalizada','Integracao com WhatsApp e e-mail','Relatorio de conversoes recuperadas'] }
+  cart:     { num_label: 'Rec. Carrinho',  title: 'Recuperacao de<br>Carrinho com IA',     img: 'assets/demo_cart.png',     url: 'automatizze.ia &mdash; cart recovery',   badge: 'Ativo',      tag: 'Recuperacao de Carrinho IA', desc: 'Sistema inteligente que identifica clientes que abandonaram o carrinho e aciona automaticamente via WhatsApp, e-mail e SMS.', features: ['Deteccao automatica de abandono','Sequencia de mensagens personalizada','Integracao com WhatsApp e e-mail','Relatorio de conversoes recuperadas'] },
+  traffic:  { num_label: 'Trafego com IA', title: 'Gestao de Anuncios<br>e Trafego com IA', img: 'assets/demo_voice.png', url: 'ads.automatizze.ia &mdash; trafego pago', badge: 'Ativo', tag: 'Trafego Pago & Anuncios IA', desc: 'Gestao de trafego pago (Meta Ads, Google Ads) com inteligencia artificial para criacao de anuncios, copys, otimizacao automatica de orcamentos e relatorios de CPA/ROI.', features: ['Criacao de anuncios e copys com IA', 'Otimizacao automatica de orcamentos', 'Segmentacao inteligente de publicos', 'Relatorios automaticos de ROI e CPA'] },
+  leads_maps: { num_label: 'Leads Google Maps', title: 'Extracao de Leads<br>Google Maps com IA', img: 'assets/demo_recovery.png', url: 'maps.automatizze.ia &mdash; extracao', badge: 'Ativo', tag: 'Extracao de Leads do Maps', desc: 'Robo de extracao inteligente de leads comerciais diretamente do Google Maps utilizando Serp API, estruturando uma base de dados segmentada com inteligencia artificial para contatar os contatos e disparar de mensagens em massa pela API oficial.', features: ['Varredura por nicho e regiao', 'Enriquecimento de dados (e-mail/redes)', 'Disparo em massa pela API oficial', 'Qualificacao automatica dos retornos'] },
+  leads_linkedin: { num_label: 'Leads LinkedIn', title: 'Extracao de Leads<br>LinkedIn com IA', img: 'assets/demo_chatwoot.png', url: 'linkedin.automatizze.ia &mdash; prospeccao', badge: 'Ativo', tag: 'Extracao de Leads do LinkedIn', desc: 'Sistema automatizado de prospeccao e extracao de leads no LinkedIn (B2B). Pesquise pessoas fisicas e decisores por cargo, setor, interesses e regiao com abordagem personalizada por IA.', features: ['Busca de decisores por cargo/setor', 'Extracao segura em conformidade B2B', 'Abordagem personalizada com IA', 'Estruturacao completa de leads'] }
 };
 
 /* ── DOWNLOAD PROPOSAL HTML ── */
