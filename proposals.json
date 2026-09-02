@@ -1,5 +1,25 @@
 [
   {
+    "id": "p_1788391988975",
+    "client": "TBLog (Brunetti Log)",
+    "slug": "tblog",
+    "billingType": "monthly",
+    "value": "2.000",
+    "valueNum": 2000,
+    "installment": "",
+    "investmentDesc": "Automação de IA — Fase 1: Área Início / Entrada",
+    "status": "open",
+    "products": [
+      "process_automation"
+    ],
+    "timelines": {
+      "process_automation": "30 dias uteis"
+    },
+    "notes": "Fase 1 - Área Início/Entrada. Escopo: captura de informação de entrada (XML/e-mail), lançamento e conferência no armazém, emissão de CT-e, montagem de carga, emissão de CIOT e MDF-e. Ciclo de 30 dias. R$2.000/mês.",
+    "createdAt": "2026-09-02T23:33:08.975Z",
+    "updatedAt": "2026-09-02T23:33:08.975Z"
+  },
+  {
     "id": "p_1781648040923",
     "client": "Integraps",
     "slug": "integracaps",
