@@ -17,7 +17,91 @@
     },
     "notes": "Fase 1 - Área Início/Entrada. Escopo: captura de informação de entrada (XML/e-mail), lançamento e conferência no armazém, emissão de CT-e, montagem de carga, emissão de CIOT e MDF-e. Ciclo de 30 dias. R$2.000/mês.",
     "createdAt": "2026-09-02T23:33:08.975Z",
-    "updatedAt": "2026-09-02T23:33:08.975Z"
+    "updatedAt": "2026-09-04T16:56:35.340Z",
+    "heroSub": "Uma IA treinada com o processo real da <strong>TBLog</strong> — não um robô fixo, mas uma inteligência que navega, raciocina e decide dentro do seu próprio TMS, do jeito que a equipe decide hoje.",
+    "diagnosisIntro": "Hoje, cada etapa da entrada — captura da nota, lançamento no armazém, emissão de CT-e, montagem de carga, CIOT e MDF-e — depende de alguém disponível pra pensar e decidir. Preparamos uma <strong>IAtização</strong> desse processo: uma IA que entra no seu sistema, entende o que está vendo e assume o raciocínio da operação — sem virar um script engessado que trava quando o processo muda.",
+    "deliveryBreakdown": [
+      {
+        "label": "Leitura da Nota",
+        "title": "Leitura Inteligente da Nota de Entrada",
+        "titleHtml": "Leitura Inteligente<br>da Nota de Entrada",
+        "desc": "A IA lê o XML ou e-mail de entrada da carga, entende os dados (remetente, itens, volumes, prazos) e organiza tudo sozinha — sem esperar alguém abrir, ler e digitar manualmente cada informação.",
+        "img": "https://automatizze.ia.br/wp-content/uploads/2026/07/demo_chatwoot.jpg",
+        "url": "IA lendo e interpretando a nota de entrada",
+        "liveBadge": "IAtização",
+        "features": [
+          "Leitura automática de XML e e-mails de entrada",
+          "Extração dos dados relevantes da carga",
+          "Organização das informações prontas para lançamento",
+          "Sinalização de inconsistências para revisão humana"
+        ]
+      },
+      {
+        "label": "Navegação no TMS",
+        "title": "IA Navegando Dentro do seu TMS",
+        "titleHtml": "IA Navegando<br>Dentro do seu TMS",
+        "desc": "A IA acessa o sistema de vocês como uma pessoa da equipe acessaria — navega pelas telas, lança e confere os dados no armazém. Isso não é robotização: não é um script fixo que quebra quando o processo muda. É uma IA que raciocina sobre o que vê na tela, então se adapta.",
+        "img": "https://automatizze.ia.br/wp-content/uploads/2026/07/demo_whatsapp.jpg",
+        "url": "IA operando dentro do TMS da TBLog",
+        "liveBadge": "IAtização",
+        "features": [
+          "Navegação e preenchimento direto no seu sistema/login",
+          "Lançamento e conferência da carga no armazém",
+          "Raciocínio sobre a tela, não um script fixo de cliques",
+          "Adapta-se quando o processo muda, em vez de quebrar"
+        ]
+      },
+      {
+        "label": "Decisão na Montagem",
+        "title": "Raciocínio Estratégico na Montagem de Carga",
+        "titleHtml": "Raciocínio Estratégico<br>na Montagem de Carga",
+        "desc": "Na montagem da carga e na emissão de CT-e, CIOT e MDF-e, a IA avalia as mesmas variáveis que a equipe avalia hoje — motorista, veículo, itens, prazos, restrições — e toma a decisão sozinha, com o mesmo critério usado por vocês na rotina.",
+        "img": "https://automatizze.ia.br/wp-content/uploads/2026/07/demo_email.jpg",
+        "url": "IA decidindo motorista, veículo e documentos",
+        "liveBadge": "IAtização",
+        "features": [
+          "Avaliação de motorista, veículo e itens da carga",
+          "Emissão de CT-e, CIOT e MDF-e sem intervenção manual",
+          "Critério de decisão alinhado com o raciocínio da equipe",
+          "Escalonamento automático para revisão quando há dúvida real"
+        ]
+      },
+      {
+        "label": "Evolução Contínua",
+        "title": "Uma IA que Evolui com a TBLog",
+        "titleHtml": "Uma IA que<br>Evolui com Vocês",
+        "desc": "Diferente de um robô fixo, que trava e fica ultrapassado assim que o processo muda, essa IA é ajustada e retreinada continuamente junto com a operação — ela acompanha a evolução do negócio, não o contrário.",
+        "img": "https://automatizze.ia.br/wp-content/uploads/2026/07/demo_recovery.jpg",
+        "url": "IA sendo ajustada e retreinada continuamente",
+        "liveBadge": "IAtização",
+        "features": [
+          "Manutenção e ajuste contínuo do fluxo automatizado",
+          "Acompanhamento de mudanças no processo real",
+          "Sem obsolescência de robô/script fixo",
+          "Suporte dedicado durante todo o ciclo de vida"
+        ]
+      }
+    ],
+    "timelinePhases": [
+      {
+        "period": "Semanas 1–2",
+        "phase": "Documentação",
+        "title": "Gravação e Documentação do Processo Real",
+        "desc": "Duas semanas ao lado da equipe da TBLog, gravando a tela de quem faz o processo hoje e documentando cada etapa e cada variável de decisão — captura da nota, lançamento no armazém, CT-e, montagem de carga, CIOT e MDF-e."
+      },
+      {
+        "period": "Semana 3",
+        "phase": "Testes",
+        "title": "Testes Acompanhados",
+        "desc": "Uma semana com a IA executando o processo em ambiente controlado, com acompanhamento próximo da Automatizze, corrigindo o que ela ainda não entende antes de qualquer coisa ir ao ar."
+      },
+      {
+        "period": "Semana 4",
+        "phase": "Ajustes",
+        "title": "Ajustes Finais",
+        "desc": "Mais uma semana de refinamento com base no que apareceu nos testes, antes de a área de Início/Entrada entrar em produção definitiva, rodando sozinha dentro do TMS da TBLog."
+      }
+    ]
   },
   {
     "id": "p_1781648040923",
